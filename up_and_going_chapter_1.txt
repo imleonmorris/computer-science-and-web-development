@@ -1,0 +1,37 @@
+// Statements
+
+- Statements perform a specific task:
+
+    a = b * 2;
+
+Key terms:
+- statement - a combo of the following to perform a specific task:
+- variable - store values (symbolic placeholder)
+- literal value - just stands alone outside of a variable
+- operators - perform actions with the values
+
+-> end JS statements with a ;
+
+// Expressions
+
+This statement has four expressions:
+
+    a = b * 2;
+
+Key terms:
+- expression - set of variable(s) and value(s) combined with operators
+
+-> There is such a thing as an expression statement (not common as a bit useless):
+
+    b * 2;
+
+-> More common are call expression statements:
+
+    alert ( a );
+
+// Exceuting a programming
+
+- a program can be run top to bottom (interpreting).
+- a program could be translated ahead of time (compiling) in order to run later.
+- People usually assert that JS is interpreted but it's not quite true.
+- JS compiles and then runs the compiled code immediately.
