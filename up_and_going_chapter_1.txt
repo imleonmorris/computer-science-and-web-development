@@ -80,3 +80,54 @@ Types:
 
 -> // Single comment (useful for the end of a statement or line)
 -> /* Multi line comment */ (useful for descriptive explanation)
+
+// Variables
+
+vary-ables -> amirite?
+
+- JS uses dynamic typing, as opposed to static typing (type enforcement).
+- Static is when a variable should hold a specific type only (like Swift).
+- Dynamic is when a var type can actually change - this is more flexible.
+
+    var amount = 99.99;
+
+    amount = amount * 2;
+
+    console.log( amount );  // 199.98
+
+    // convert 'amount' to a string, and
+    // add "$" on the beginning
+    amount = "$" + String( amount );
+
+    console.log( amount );  /"$199.98"
+
+-> First amount is implicitly coerced to log amount to the console §199.98
+-> Then amount is explicitly coerced to a string and converted to "$199.98".
+
+// Constants
+
+- Typically, these are placed at the top of a program (easier to edit)
+- Usually in CAPS
+
+    var TAX_RATE = 0.08; // 8% sales tax
+
+    var amount = 99.99;
+
+    amount = amount * 2;
+
+    amount = amount + (amount * TAX_RATE);
+
+    console.log( amount );              // 215.9784
+    console.log( amount.toFixed( 2 ) ); // "215.98"
+
+-> toFixed(..) specifies how many decimal places.
+
+NB: ES6 lets us declare constants using const instead of var:
+
+    // as of ES6:
+    const TAX_RATE = 0.08;
+
+    var amount = 9.99;
+
+    // ..
+
