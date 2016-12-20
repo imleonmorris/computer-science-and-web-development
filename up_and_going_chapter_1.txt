@@ -35,3 +35,48 @@ Key terms:
 - a program could be translated ahead of time (compiling) in order to run later.
 - People usually assert that JS is interpreted but it's not quite true.
 - JS compiles and then runs the compiled code immediately.
+
+// Output
+
+    console.log( b );
+
+    -> log( b ) is a function.
+    -> console. is an object reference.
+
+// Input
+
+    prompt( "..." );
+
+// Operators
+
+Keywords:
+- Assignment: =
+- Math: +, -, *, /
+- Compound assignment: +=, -=, *=, /=
+- Increment/decrement: ++, --
+- Object property access: .
+- Equality: ==, ===, !=, !==
+- Comparison: <, >, <=, >=
+- Logical: &&, ||
+
+// Values & Types
+
+Types:
+- number: 42;
+- string: "I am a string";
+- boolean: true;
+
+-> Converting a number into a string is known as coercion.
+-> Can use number (..); Known as explicit coercion.
+-> Implicit coercion: "99.99" == 99.99 -> turns into 99.99 == 99.99.
+-> Implicit coercion is tricky to master but it is important to recognise the rules.
+
+// Code comments
+
+- No comments is suboptimal
+- Too many is poorly written code
+- Explain why, not what.
+- Perhaps explain how as well.
+
+-> // Single comment (useful for the end of a statement or line)
+-> /* Multi line comment */ (useful for descriptive explanation)
