@@ -1,0 +1,26 @@
+1. Values & Types
+2. Objects
+    a. Arrays
+    b. Functions
+3. Built-In Type Methods
+4. Comparing Values
+    a. Coercion
+    b. Truthy & Falsy
+    c. Equality
+    d. Inequality
+5. Variables
+6. Function Scopes
+    a. Hoisting
+    b. Nested scopes
+7. Conditionals
+8. Strict Mode
+9. Functions as Values
+10. Immediately Invoked Function Expressions (IIFEs)
+11. Closure
+    a. Modules
+12. this Identifier
+13. Prototypes
+14. Old & New
+15. Polyfilling
+16. Transpiling
+17. Non-JavaScript

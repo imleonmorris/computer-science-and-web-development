@@ -1,3 +1,18 @@
+1. Statements
+2. Expressions
+3. Executing a programme
+4. Output
+5. Input
+6. Operators
+7. Values and Types
+8. Code Comments
+9. Variables
+10. Constants
+11. Blocks
+12. Conditionals
+13. Functions
+14. Scope
+
 // Statements
 
 - Statements perform a specific task:
