@@ -295,3 +295,13 @@ NB: ES6 lets us declare constants using const instead of var:
     outer();
 
     -> constants can be accessed from anywhere due to lexical scope.
+
+    // Review
+
+    -> Need operators to perform actions on.
+    -> Need values and types to perform different kinds of actions (like maths on numbers or output with strings).
+    -> Need vars to store data (aka state) during your program's execution.
+    -> Need conditionals like if statements to make decisions.
+    -> Need loops to repeat tasks until a condition stops being true.
+    -> Need functions to organise code into logical and reusable chunks.
+
