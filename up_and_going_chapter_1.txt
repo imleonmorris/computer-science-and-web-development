@@ -131,3 +131,109 @@ NB: ES6 lets us declare constants using const instead of var:
 
     // ..
 
+// Blocks
+
+- We block a series of JS statements in {..}
+
+    var amount = 99.99;
+
+    // a general block
+    {
+        amount = amount * 2;
+        console.log( amount );  // 199.98
+    }
+
+- NB: Typically, blocks are attached to a control statement (e.g. if statements).
+
+    var amount = 99.99;
+
+    // is amount big enough?
+    if (amount > 10) {
+        amount = amount * 2;
+        console.log( amount );  // 199.98
+    }
+
+-> The statements inside the block will only run if amount > 10 (it is attached.)
+
+// Conditionals
+
+1. if statements
+2. if..else statements
+3. switch statement
+4. loops
+
+    // 1. if statements
+
+    var bank_balance = 302.13;
+    vara amount = 99.99;
+
+    if (amount < bank_balance) {
+        console.log( "I want to buy this phone!" );
+    }
+
+    // 2. is..else statements
+
+    -> else clauses can be added if the condition is false:
+
+    const ACCESSORY_PRICE = 9.99;
+
+    var bank_balance = 302.13;
+    var amount = 99.99;
+
+    amount = amount * 2;
+
+    // can we afford the extra purchase?
+    if ( amount < bank_balance ) {
+        console.log( "I'll take the accessory!" );
+        amount = amount + ACCESSORY_PRICE;
+    }
+    // otherwise:
+    else {
+        console.log( "No, thanks." );
+    }
+
+    // 3. switch statements
+
+        -> These will be discussed later
+
+    // 4. loops
+
+        - includes a test condition and a block.
+        - Each time the loop block executes is an interation.
+
+        -> while loops
+        -> do..while loops - always performs one iteration
+        -> for loops
+
+        while (numOfCustomers > 0) {
+            console.log( "How may I help you?" );
+
+            // help the customer
+
+            numOfCustomers = numOfCustomer - 1;
+        }
+
+        // versus:
+
+        do {
+            console.log( "How may I help you?" );
+
+            // help the customer...
+
+            numOfCustomers = numOfCustomers - 1;
+        } while (numOfCustomers > 0);
+
+        // for loops
+
+        These offer a significant amount of control and simplicity:
+
+        for (var i = 0; i <= 9, i += 1) {
+            console.log( i );
+        }
+        // 0 1 2 3 4 5 6 7 8 9
+
+        -> three clauses:
+            1. initilisation (var i=0)
+            2. condition (i <= 9)
+            3. update (i += 1)
+
