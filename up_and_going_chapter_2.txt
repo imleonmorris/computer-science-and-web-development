@@ -24,3 +24,36 @@
 15. Polyfilling
 16. Transpiling
 17. Non-JavaScript
+
+// Values and Types
+
+    1. string
+    2. number
+    3. boolean
+    4. null and undefined
+    5. object
+    6. symbol (new)
+
+    -> use the typeof operator to examine a value's type. Always returns a string value.
+
+    var a;
+    typeof a;       // "undefined"
+
+    a = "hello world";
+    typeof a;       // "string"
+
+    a = 42;
+    typeof a;       // "number"
+
+    a = true;
+    typeof a;       // "boolean"
+
+    a = null;
+    typeof a;       // "object"--weird, bug
+
+    a = undefined;
+    typeof a;       // "undefined"
+
+    a = { b: "c"};
+    typeof a;       // "object"
+
