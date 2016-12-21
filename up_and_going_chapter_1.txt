@@ -237,3 +237,61 @@ NB: ES6 lets us declare constants using const instead of var:
             2. condition (i <= 9)
             3. update (i += 1)
 
+// Functions
+
+    - can be callled, and insides will be run each time.
+
+    function printAmount() {
+        console.log( amount.toFixed( 2 ) );
+    }
+
+    var amount = 99.99;
+
+    printAmount(); // "99.99"
+
+    amount = amount * 2;
+
+    printAmount(); // "199.98"
+
+// Scope
+
+    - a collections of vars as well as rules for how those vars are accessed by name.
+
+    - only code inside a function can access that function's scoped vars.
+
+    function one() {
+        // this 'a' belongs to the 'one()' function
+        var a = 1;
+        console.log( a );
+    }
+
+    function two() {
+        // this 'a' belongs to the 'two()' function
+        var a = 2;
+        console.log( a );
+    }
+
+    one();  // 1
+    two();  // 2
+
+    -> vars in functins within functions can access all scoped functions:
+
+    function outer() {
+        var a = 1;
+
+        function inner() {
+            var b = 2;
+
+            // we can access both 'a' and 'b' here
+            console.log ( a + b );  // 3
+        }
+
+        inner ();
+
+        // we can only access 'a' here
+        console.log( a );   // 1
+    }
+
+    outer();
+
+    -> constants can be accessed from anywhere due to lexical scope.
