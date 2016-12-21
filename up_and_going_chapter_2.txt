@@ -57,3 +57,52 @@
     a = { b: "c"};
     typeof a;       // "object"
 
+// Objects
+
+    var obj = {
+        a: "hello world",
+        b: 42,
+        c: true
+    };
+
+    obj.a;  // "hello world"
+    obj.b;  // 42
+    obj.c;  // true
+
+    obj["a"];   // "hello world"
+    obj["b"];   // 42
+    obj["c"];   // true
+
+    -> these properties can be accessed using:
+        1. dot notation
+        2. bracket notation (such properties known as keys)
+
+    // a. Arrays
+
+    -> holds values in numerically indexed positions.
+
+    var arr = [
+        "hello world",
+        42,
+        true
+    ];
+
+    arr[0];     // "hello world"
+    arr[1];     // 42
+    arr[2];     // true
+    arr.length; // 3
+
+    tyeof arr;  // "object"
+
+    // b. Functions
+
+    function foo() {
+        return 42;
+    }
+
+    foo.bar = "hello world";
+
+    typeof foo;         // "function"
+    typeof foo();       // "number"
+    typeof foo.bar;     // "string"
+
