@@ -340,3 +340,51 @@ function foo() {
 foo();
 
 -> If stict mode starts making your code buggy, clearly there are things to fix.
+
+// Functions as Values
+
+    This is the syntax of a function:
+
+    function foo() {
+        // ..
+    }
+
+-> foo is another var. The function itself can be a value.
+-> functions expressions can be:
+    - anonymous
+    - named
+
+Anon:
+
+var foo = function() {
+    // ..
+}
+
+var x = function bar () {
+    // ..
+}
+
+-> named function expressions are more preferable.
+
+// IIFEs
+
+-> In the previous section, neither are executed. But we could.
+-> because IIFEs also have variable scope, they can declare vars which won't affect surrounding code:
+
+var a = 42;
+
+(function IIFE() {
+    var a = 10;
+    console.log( a );   // 10
+})();
+
+console.log( a );       // 42
+
+-> IIFEs can also have return values:
+
+var x = (function IIFE() {
+    return 42;
+})();
+
+x;      // 42
+
