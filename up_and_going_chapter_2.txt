@@ -106,3 +106,118 @@
     typeof foo();       // "number"
     typeof foo.bar;     // "string"
 
+// Built-In Type Methods
+
+    ??
+
+// Comparing Values
+
+    // a. Coercion
+
+    -> Explicit
+
+        var a = "42";
+
+        var b = Number( a );
+
+        a;      // "42"
+        b;      // 42--the number!
+
+    -> Implicit
+
+        var a = "42";
+
+        var b = a * 1;  // "42" implicitly coerced to 42 here
+
+        a;      // "42"
+        b;      // 42 -- the number!
+
+
+    // b. Truth & falsy
+
+    These are falsy"
+    -> "" (empty string)
+    -> 0, -0, NaN (invalid Number)
+    -> null, undefined
+    -> false
+
+    *Everything else is truthy*
+
+    // c. Equality
+
+    1. == (value equality w/ coercion)
+    2. === (value & type equality w/out coercion)
+    3. !=
+    4. !==
+
+        var a = "42";
+        var b = 42;
+
+        a == b;         // true
+        a === b;        // false
+
+        But how is this coerced? Either:
+
+        42 == 42 OR "42" == "42"
+
+        But which?
+        --> It's 42 == 42
+
+        It may not matter how it gets there with such a simple example, but it does matter later on.
+
+        Many opt to use === as it is more predictable but author believes this is short sighted.
+
+        Learn the rules here (11.9.3): http://www.ecma-international.org/ecma-262/5.1/
+
+        However, two tips to avoid ==:
+        -> If either value (side) could be the true or false value
+        -> If either value (side) could be:
+            a. 0
+            b. ""
+            c. []
+
+        * It is safe to use == in all other case*
+
+        -> Objects check matching references and not the underlying values.
+        -> Arrays are default coerced to strings by joining all the values with commas.
+
+        var a = [1,2,3];
+        var b = [1,2,3];
+        var c = "1,2,3";
+
+        a == c;     // true
+        b == c;     // true
+        a == b;     // false
+
+    // d. Inequality (relational comparison)
+
+        1. <
+        2. >
+        3. <=
+        4. >=
+
+    Coercion works in a similar way as before.
+
+    var a = 41;
+    var b = "42";
+    var c = "43";
+
+    a < b;      // true
+    b < c;      // true
+
+    -> NB: what is happening is simple:
+    1. If both values are string, no coercion.
+    2. If one is not, then coerce both to numbers.
+
+    Consider:
+
+    var a = 42;
+    var b = "foo";
+
+    a < b;      // false
+    a > b;      // false
+    a == b;     // false
+
+    1. The first two show as false as b is being converted to NaN (and NaN is neither greater than nor less than any other value)
+    2. The third fails as it is 42 == NaN.
+
