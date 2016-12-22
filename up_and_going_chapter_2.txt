@@ -289,4 +289,54 @@
         foo();
         // 5 7 9
 
+// Conditionals
 
+-> 1. Can supplement if..else statements with else if.
+-> 2. Can also use a switch statement
+
+switch (a) {
+    case 2:
+        // do something
+        break;
+    case 10:
+        // do another thing
+        break;
+    case 42:
+        // do yet another thing
+        break;
+    default:
+        // fallback to here
+}
+
+-> The break is important otherwise you get fall through. This is sometimes desired however, as it means you can get two cases executing the same code.
+
+-> 3. Ternary Operator
+
+This is a bit like a if..else statement:
+
+var a = 42;
+
+var b = (a > 41) ? "hello" : "world";
+
+similar to:
+
+if (a > 41) {
+    b = "hello";
+} else {
+    b = "world";
+}
+
+// Strict mode
+
+If "use strict"; works in a similar way to scope.
+
+-> Strict mode disallows the auto-global var declaration:
+
+function foo() {
+    "use strict";
+    a = 1;          // 'var' missing, ReferenceError
+}
+
+foo();
+
+-> If stict mode starts making your code buggy, clearly there are things to fix.
