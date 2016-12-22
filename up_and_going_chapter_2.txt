@@ -221,3 +221,72 @@
     1. The first two show as false as b is being converted to NaN (and NaN is neither greater than nor less than any other value)
     2. The third fails as it is 42 == NaN.
 
+// Variables
+
+-> var names must be valid identifiers. There are strict rules.
+
+    1. must start with:
+        - a-z,
+        - A-Z,
+        - $,
+        - _
+    2. cannoto use reserved words:
+        - for
+        - in
+        - if
+        - null
+        - true
+        - false
+        - etc
+
+    [see appendix A for more]
+
+// Function Scopes
+
+    // Hoisting
+
+    -> When a var appears inside a scope, and belongs to the entire scope (being accessible throughout) - this is known as hoisting.
+
+    var a = 2;
+
+    foo();          // works because 'foo()'
+                    // declaration is hoisted
+
+    function foo() {
+        a = 3;
+
+        console.log( a );      // 3
+
+        var a;              // declaration is "hoisted"
+                            // to the top of 'foo()'
+    }
+
+    console.log( a );       // 2
+
+    // Nested Scopes
+
+        -> Always formally declare vars otherwise it will be global! (bad leon)
+        -> A var declared will be accessible all the way down into nested functions
+        -> but not the other way!
+
+        -> Use the let keyword at function level to declare vars for individual blocks.
+
+        function foo() {
+            var a = 1;
+
+            if (a >= 1) {
+                let b = 2;
+
+                while (b < 5) {
+                    let c = b * 2;
+                    b ++;
+
+                    console.log( a + c );
+                }
+            }
+        }
+
+        foo();
+        // 5 7 9
+
+
