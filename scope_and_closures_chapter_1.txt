@@ -11,3 +11,38 @@
 4. Nested Scope
     - Building on Metaphors
 5. Errors
+
+// What is Scope?
+
+    - Where do your variables get stored?
+    - How does our program find them when it needs them?
+
+// Compiler Theory
+
+-> JS falls under the category of 'dynamic' or 'interpreted' language.
+-> However, it IS compiled (but not in advance).
+-> It is compiled RIGHT BEFORE it is executed.
+
+During compilation, source code goes through three steps:
+
+    1. Tokenizing/Lexing
+
+    -> Breaking up a stirng of characters into meaningful chunks e.g.
+
+    var a = 2; --> var, a, =, 2, ;.
+
+    -> Lexing is when stateful parsing rules were invoked to figure out if a character should be considered a distinct token. [?? WTF ??]
+
+    2. Parsing
+
+    -> taking an array of tokens and turning it into a tree (AST - Abstract Syntax Tree) of nested elements.
+    -> This tree is basically how all the token link together - using parent/child terms.
+
+    3. Code-Generation
+
+    -> Turning an AST into executable code.
+    -> This is complex to explain as it will require engine management/memory references.
+
+NB: This is greatly simplified but these three broadly cover the primary discussion points.
+
+
