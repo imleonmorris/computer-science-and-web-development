@@ -1,0 +1,13 @@
+1. What is Scope?
+2. Compiler Theory
+    - Tokenizing/Lexing
+    - Parsing
+    - Code-Generation
+3. Understanding Scope
+    - The Cast
+    - Back & Forth
+    - Compiler Speak
+    - Engine/Scope Conversation
+4. Nested Scope
+    - Building on Metaphors
+5. Errors
