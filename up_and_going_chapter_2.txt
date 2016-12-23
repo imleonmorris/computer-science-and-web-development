@@ -388,3 +388,59 @@ var x = (function IIFE() {
 
 x;      // 42
 
+// Closure
+
+    -> most important thing to learn.
+    -> think: way to 'remember' & continue to access a function's scope even once the function has finished running.
+
+    function makeAdder(x) {
+        // parameter 'x' is an inner var
+
+        // inner function 'add()' uses 'x', so
+        // it has a "closure" over it
+        function add(y) {
+            return y + x;
+        };
+
+        return add;
+    }
+
+    ????
+
+// Modules
+
+??
+
+// this Identifier
+
+-> usually points to an object. However, which object depends on how the function is called.
+-> NB: does not reference the function itself.
+
+    function foo() {
+        console.log( this.bar );
+    }
+
+    var bar = "global";
+
+    var obj1 = {
+        bar: "obj1",
+        foor: foo
+    };
+
+    var obj2 = {
+        bar = "obj2"
+    };
+
+    // -------------------------------------
+
+    foo ();                 // "global"
+    obj1.foo();             // "obj1"
+    foo.call( obj2 );       // "obj2"
+    new foo();              // undefined
+
+    -> There are four rules:
+
+        1. foo() ends up setting this to the global object (in non-strict mode). In stict mode, this would be undefined.
+        2. obj1.foo() sets this to the obj1 object.
+        3. foo.call(obj2) sets this to the obj2 object.
+        4. new foo() sets this to a brand new empty object.
