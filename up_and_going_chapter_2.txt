@@ -444,3 +444,4 @@ x;      // 42
         2. obj1.foo() sets this to the obj1 object.
         3. foo.call(obj2) sets this to the obj2 object.
         4. new foo() sets this to a brand new empty object.
+
