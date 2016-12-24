@@ -1,1 +1,33 @@
 Chapter 3: Function vs. Block Scope
+
+A look at units of scope - the difference between function and block scope.
+
+1. Scope From Functions
+    -> Nothing new. Functions have their own scope bubbles.
+2. Hiding in Plain Scope
+    -> You can hide vars by enclosing code with scope of another function.
+    -> Follow the Principle of Least Privilege.
+    -> Also avoids unintended collision between two identifiers with same name but different intended usages.
+        - Quite common within the global scope and multiple libraries. Global namespaces (library objects) can avoid this.
+        - A modern 'module' approach by using dependency managers can avoid collision as well.
+3. Functions As Scopes
+    NB: If the statement starts with function - it is a function declaration. Otherwise, it's a function expression.
+    -> A function expression can be anon or named:
+        1. setTimeout( function() {...}, 1000 );
+        2. setTimeout( function timeoutHandler() {...}, 1000 );
+    -> The following format so popular that the name IFFE was given to it:
+        (function foo(){ .. })()
+4. Blocks As Scopes
+    -> Block-scoping is all about declaring variables as close as possible to where they will be used.
+        1. with - see previous chapter
+        2. try/catch - block-scope in the catch clause
+        3. let & let loops
+            - introduced with ES6 & sits alongside var.
+            - hijacks block's scope for its variable declaration.
+            - let is fantastic in loops as it is bound e.g.
+                for (let i=0; i<10; i++) {
+                    console.log( i );
+                }
+                console.log( i ); // ReferenceError
+        5. const
+            - also block-scoped but value is fixed.
