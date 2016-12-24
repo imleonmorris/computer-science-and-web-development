@@ -1,0 +1,7 @@
+Chapter 4: Hoisting
+
+1. Chicken Or The Egg?
+
+2. The Compiler Strikes Again
+
+3. Functions First
