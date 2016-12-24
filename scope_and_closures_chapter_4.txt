@@ -1,7 +1,12 @@
 Chapter 4: Hoisting
-
+    A look at declarations appearing in various locations WITHIN a scope.
 1. Chicken Or The Egg?
-
+    What comes first? The declaration (egg) or the assignment (chicken)?
 2. The Compiler Strikes Again
-
+    - All declarations (both vars & functions) processed FIRST.
+    - Only declarations are hoisted.
+    - Hoisting is PER-SCOPE.
+    - Function declarations are hoisted - function expressions ARE NOT.
 3. Functions First
+    - Function decl are hoisted before var declarations.
+    - Duplicate var decls are ignored but subsequent *function* decls DO override previous ones.
