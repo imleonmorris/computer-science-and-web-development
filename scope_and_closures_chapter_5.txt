@@ -1,0 +1,7 @@
+Chapter 5: Scope Closure
+
+1. Enlightenment
+2. Nitty Gritty
+3. Now I Can See
+4. Loops + Closure
+5. Modules
