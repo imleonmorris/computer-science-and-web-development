@@ -14,7 +14,7 @@
 |   | Book | [YDKJS: Scope & Closures](https://github.com/getify/You-Dont-Know-JS/blob/master/scope%20&%20closures/README.md#you-dont-know-js-scope--closures) |   |    |     |
 |   | Book | [YDKJS: this & Object Prototypes](https://github.com/getify/You-Dont-Know-JS/blob/master/this%20&%20object%20prototypes/README.md#you-dont-know-js-this--object-prototypes) |   |    |     |
 |   | Course | [Learn to Code HTML & CSS](http://learn.shayhowe.com/html-css/)  by Shay Howe |   |    |     |
-|   | Project | Clone [this](https://blackrockdigital.github.io/startbootstrap-creative/)  landing page |   |    |     |
+|   | Project | Clone [this online resume](https://creativemarket.com/ikonome/686585-Material-Resume-Blue/screenshots/#screenshot2) |   |    |     |
 |   | Course | [CS50](https://courses.edx.org/courses/course-v1%3AHarvardX%2BCS50%2BX/)  on edX |   |    |    |
 |   | Book | [YDKJS: Types & Grammar](https://github.com/getify/You-Dont-Know-JS/blob/master/types%20&%20grammar/README.md#you-dont-know-js-types--grammar) |   |    |     |
 |   | Book | [YDKJS: Async & Performance](https://github.com/getify/You-Dont-Know-JS/blob/master/async%20&%20performance/README.md#you-dont-know-js-async--performance) |   |    |     |
