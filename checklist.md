@@ -2,13 +2,13 @@
 
 ## Prequisites
 
-| Progress | Type | Item | Project(s) | Notes | Blog |
+| Progress | Type | Item | Project(s) | Notes | Reflections |
 |------|------|------|------------|-------|-------|
 |   | Course | [How to Use Git and GitHub](https://www.udacity.com/course/how-to-use-git-and-github--ud775) on Udacity | [Project](courses/git-and-github/project.md)  | [Notes](courses/git-and-github/notes.md)   |    |
 
 ## Tier One
 
-| Progress | Type | Item | Project(s) | Notes | Blog |
+| Progress | Type | Item | Project(s) | Notes | Reflections |
 |------|------|------|------------|-------|-------|
 |   | Book | [YDKJS: Up & Going](https://github.com/getify/You-Dont-Know-JS/blob/master/up%20&%20going/README.md#you-dont-know-js-up--going) |  |    |     |
 |   | Book | [YDKJS: Scope & Closures](https://github.com/getify/You-Dont-Know-JS/blob/master/scope%20&%20closures/README.md#you-dont-know-js-scope--closures) |   |    |     |
@@ -30,7 +30,7 @@
 
 ## Tier Two
 
-| Progress | Type | Item | Project(s) | Notes | Blog Post |
+| Progress | Type | Item | Project(s) | Notes | Reflections |
 |------|------|------|------------|-------|-------|
 |   | Course | [How to Code: Systematic Program Design - Part 1](https://www.edx.org/course/how-code-systematic-program-design-part-ubcx-spd1x) on edX |   |    |     |
 |   | Course | [How to Code: Systematic Program Design - Part 2](https://www.edx.org/course/how-code-systematic-program-design-part-ubcx-spd2x) on edX |   |    |     |
@@ -68,7 +68,7 @@
 
 ## Tier Three
 
-| Progress | Type | Item | Project(s) | Notes | Blog Post |
+| Progress | Type | Item | Project(s) | Notes | Reflections |
 |------|------|------|------------|-------|-------|
 |   | Book | [Professor Frisby's Mostly Adequate Guide to Functional Programming](https://www.gitbook.com/book/drboolean/mostly-adequate-guide/details) |   |    |     |
 |   | Course | [Software Testing](https://www.udacity.com/course/software-testing--cs258) on Udacity |   |    |      |
@@ -86,7 +86,7 @@
 |   | Course | [Introduction to Cloud Computing](https://www.edx.org/course/introduction-cloud-computing-ieeex-cloudintro-x-0)  on edX |   |    |    |
 |   | Project | Complete all [Code Jam Round 1B 2015](https://code.google.com/codejam/contest/8224486/dashboard) challenges |   |    |     |
 |   | Project | Build FaceBook and all the functionality. [Requirements](http://www.theodinproject.com/courses/ruby-on-rails/lessons/final-project). |   |    |
-|   | Course | [Intro to Theoretical Computer Science]https://www.udacity.com/course/intro-to-theoretical-computer-science--cs313)  on Udacity |   |    |    |
+|   | Course | [Intro to Theoretical Computer Science](https://www.udacity.com/course/intro-to-theoretical-computer-science--cs313)  on Udacity |   |    |    |
 |   | Project | Complete all [Code Jam Round 1C 2015](https://code.google.com/codejam/contest/4244486/dashboard) challenges |   |    |     |
 |   | Course | [Introduction to Probability - The Science of Uncertainty](https://www.edx.org/course/introduction-probability-science-mitx-6-041x-0)  on edX |   |    |    |
 |   | Project | Write the CSS necessary to create your own 12 column based grid layout - [Example](http://960.gs/) |   |    |     |
@@ -99,7 +99,7 @@
 
 ## Tier Four
 
-| Progress | Type | Item | Project(s) | Notes | Blog Post |
+| Progress | Type | Item | Project(s) | Notes | Reflections |
 |------|------|------|------------|-------|-------|
 |   | Course | [Computer Architecture](https://www.coursera.org/course/comparch)  on Coursera |   |    |    |
 |   | Project | Complete all [Code Jam Round 3 2015](https://code.google.com/codejam/contest/4254486/dashboard) challenges |   |    |     |
