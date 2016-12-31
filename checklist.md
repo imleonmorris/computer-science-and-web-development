@@ -4,13 +4,13 @@
 
 | Progress | Type | Item | Project(s) | Notes | Reflections |
 |------|------|------|------------|-------|-------|
-|   | Course | [How to Use Git and GitHub](https://www.udacity.com/course/how-to-use-git-and-github--ud775) on Udacity | [Project](courses/git-and-github/project.md)  | [Notes](courses/git-and-github/notes.md)   |    |
+| Completed 21/12/2016 | Course | [How to Use Git and GitHub](https://www.udacity.com/course/how-to-use-git-and-github--ud775) on Udacity | [Project](courses/git-and-github/project.md)  | [Notes](courses/git-and-github/notes.md)   |  [Reflections](courses/git-and-github/reflections.md)  |
 
 ## Tier One
 
 | Progress | Type | Item | Project(s) | Notes | Reflections |
 |------|------|------|------------|-------|-------|
-|   | Book | [YDKJS: Up & Going](https://github.com/getify/You-Dont-Know-JS/blob/master/up%20&%20going/README.md#you-dont-know-js-up--going) |  |    |     |
+| Started 23/12/2016  | Book | [YDKJS: Up & Going](https://github.com/getify/You-Dont-Know-JS/blob/master/up%20&%20going/README.md#you-dont-know-js-up--going) |  |    |     |
 |   | Book | [YDKJS: Scope & Closures](https://github.com/getify/You-Dont-Know-JS/blob/master/scope%20&%20closures/README.md#you-dont-know-js-scope--closures) |   |    |     |
 |   | Book | [YDKJS: this & Object Prototypes](https://github.com/getify/You-Dont-Know-JS/blob/master/this%20&%20object%20prototypes/README.md#you-dont-know-js-this--object-prototypes) |   |    |     |
 |   | Course | [Learn to Code HTML & CSS](http://learn.shayhowe.com/html-css/)  by Shay Howe |   |    |     |
