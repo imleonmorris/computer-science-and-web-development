@@ -1,7 +1,7 @@
 Scope is the set of rules which determine where vars are stored and how to access them.
 
 1. Compiler Theory
-    -> JS falls under the category of 'dynamic' or 'interpreted' language but IS in fact compiled RIGHT BEFORE it is executed.
+    -> JS falls under the category of 'dynamic' or 'interpreted' language but code IS in fact compiled RIGHT BEFORE it is executed.
     -> During compilation, source code must be tokenized (broken up), parsed (turned into an Abstract Syntax Tree) and turned into executable code.
 2. Understanding Scope
     -> Useful to see scope as a conversation between three people: Engine (s-t-f compilation/execution), Compiler (parses/gens code) and Scope (collects/maintains list of vars, enforces rules).

@@ -1,7 +1,25 @@
 Chapter 5: Scope Closure
 
 1. Enlightenment
+    - Whatever.
 2. Nitty Gritty
+    - When a function remembers, and can access, its lexical scope - even when executing from OUTSIDE its lexical scope.
 3. Now I Can See
 4. Loops + Closure
 5. Modules
+    -> Modules are just functions
+    -> Two requirements for the module pattern to be exercised:
+        1. Outer enclosing function (invoked at least once)
+        2. outer enclosing function must return back at least one inner function (so inner function has closure over the private scope and can access/modify it)
+
+
+
+
+
+        for (var i=1; i<=5; i++) {
+            setTimeout( function timer() {
+                console.log( i );
+            }, i* 1000 );
+        }
+
+
