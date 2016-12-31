@@ -1,6 +1,8 @@
 #:computer: Computer Science and Web Development - comprehensive
 
-**Note:** [From :computer: Guide: Computer Science and Web Development - comprehensive path] (https://trello.com/b/4v9dpn3G/cs-wd).
+**Note:** Modelled on this [repo] (https://gitlab.com/P1xt/get-job-ready/tree/master) from [`@P1xt`] (https://gitlab.com/P1xt)
+
+**Note:** [Curriculum taken from :computer: Guide: Computer Science and Web Development - comprehensive path] (https://trello.com/b/4v9dpn3G/cs-wd).
 
 ## Prerequisite
 
