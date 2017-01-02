@@ -1,0 +1,4 @@
+# pack-refs with: peeled fully-peeled 
+046b7d87718600a5967bbba373da16597be682f9 refs/heads/different-oil
+4bee764cdc85d51272315244f049ffae4d25c66a refs/heads/master
+046b7d87718600a5967bbba373da16597be682f9 refs/pull/1/head
