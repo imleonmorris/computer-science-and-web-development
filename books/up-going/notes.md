@@ -108,3 +108,105 @@ Lexical scope rules say that code in one scope can access variables of either th
 * You should define functions for calculating the tax and for formatting the price with a "$" and rounding to two decimal places.
 * **Bonus Challenge:** Try to incorporate input into this program, perhaps with the `prompt(..)` covered in "Input" earlier. You may prompt the user for their bank account balance, for example. Have fun and be creative!
 
+
+## Chapter 2: Into JavaScript
+
+### Types:
+
+* `string`
+* `number`
+* `boolean`
+* `null` and `undefined`
+* `object`
+* `symbol` (new to ES6)
+
+can use `typeof` to find the type of a value
+
+### Objects
+
+Compound values whose members may be accessed via dot or bracket notation:
+
+```JavaScript
+var obj = {
+    a: "hello world",
+    b: 42,
+    c: true
+};
+
+obj.a;      // "hello world"
+obj.b;      // 42
+obj.c;      // true
+
+obj["a"];   // "hello world"
+obj["b"];   // 42
+obj["c"];   // true
+```
+
+* *Arrays* are a type of object which holds many disparate values at indexed positions. Zero indexed.
+* *Functions* are a type of object which manipulate data in some way. Can have member variables.
+* *Objects* may have built-in type methods.
+
+### Type coercion
+
+* Can be explicit, where you intentionally convert a number to a string, for instance
+* Can also be implicit, where JavaScript converts one type to another behind the scene to allow for a comparison between two disparate types
+
+Falsy values (everything except these is truthy):
+
+* "" (empty string)
+* 0, -0, NaN (invalid number)
+* null, undefined
+* false
+
+`==` and `!=` allow coercion, `===` and `!==` do not, so use the latter to prevent coercion.
+
+### Variables
+
+Valid variable names - must start with a-z, A-Z, $, or _. It can then contain any of those characters plus the numerals 0-9.
+
+**Hoisting**
+
+JavaScript moves all `var` and function declarations to the top of the file as part of the compilation process.
+
+**Nested Scopes**
+
+When you declare a variable, it is available anywhere in that scope, as well as any lower/inner scopes.
+
+**Conditionals**
+
+* if
+* if, else
+* if, else if, else
+* switch - case, break
+
+**Strict Mode**
+
+"use strict" - causes the compiler to throw errors when you're doing crazy crap that might not work how you want it to.
+
+**Immediately Invoked Function Expressions (IIFEs)**
+
+```JavaScript
+(function IIFE(){
+    console.log( "Hello!" );
+})();
+// "Hello!"
+```
+Because an IIFE is just a function, and functions create variable scope, using an IIFE in this fashion is often used to declare variables that won't affect the surrounding code outside the IIFE:
+
+**Closure**
+
+You can think of closure as a way to "remember" and continue to access a function's scope (its variables) even once the function has finished running.
+
+
+**Modules**
+
+The most common usage of closure in JavaScript is the module pattern. Modules let you define private implementation details (variables, functions) that are hidden from the outside world, as well as a public API that is accessible from the outside.
+
+
+**Prototypes**
+
+When you reference a property on an object, if that property doesn't exist, JavaScript will automatically use that object's internal prototype reference to find another object to look for the property on. You could think of this almost as a fallback if the property is missing.
+
+**Polyfilling/Transpiling**
+
+Either using functions written in an older version of JavaScript to mimic new functionality present in newer versions (Polyfilling) or running newer version code through a process which will convert it to the equivalent in older version code (Transpiling).
