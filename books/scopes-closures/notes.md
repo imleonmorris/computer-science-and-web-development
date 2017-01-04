@@ -263,3 +263,30 @@ Starting with ES3, the `try/catch` structure has block-scope in the `catch` clau
 In ES6, the `let` keyword (a cousin to the `var` keyword) is introduced to allow declarations of variables in any arbitrary block of code. `if (..) { let a = 2; }` will declare a variable `a` that essentially hijacks the scope of the `if`'s `{ .. }` block and attaches itself there.
 
 Though some seem to believe so, block scope should not be taken as an outright replacement of `var` function scope. Both functionalities co-exist, and developers can and should use both function-scope and block-scope techniques where respectively appropriate to produce better, more readable/maintainable code.
+
+
+## Chapter 4: Hoisting
+
+
+### Chicken Or The Egg?
+
+There's a temptation to think that all of the code you see in a JavaScript program is interpreted line-by-line, top-down in order, as the program executes.
+
+While that is substantially true, there's one part of that assumption which can lead to incorrect thinking about your program.
+
+**The best way to think about things is that all declarations, both variables and functions, are processed first, before any part of your code is executed.**
+
+
+### Functions First
+
+Both function declarations and variable declarations are hoisted. But a subtle detail (that *can* show up in code with multiple "duplicate" declarations) is that functions are hoisted first, and then variables.
+
+### Review (TL;DR)
+
+We can be tempted to look at `var a = 2;` as one statement, but the JavaScript *Engine* does not see it that way. It sees `var a` and `a = 2` as two separate statements, the first one a compiler-phase task, and the second one an execution-phase task.
+
+What this leads to is that all declarations in a scope, regardless of where they appear, are processed *first* before the code itself is executed. You can visualize this as declarations (variables and functions) being "moved" to the top of their respective scopes, which is called **"hoisting"**.
+
+Declarations themselves are hoisted, but assignments, even assignments of function expressions, are *not* hoisted.
+
+Be careful about duplicate declarations, especially mixed between normal var declarations and function declarations -- peril awaits if you do!
