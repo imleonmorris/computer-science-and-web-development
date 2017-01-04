@@ -60,3 +60,54 @@ Because these two types of look-ups behave differently in the circumstance where
 
 * Both LHS and RHS reference look-ups start at the currently executing *Scope*, and work their way up the nested *Scope*, one scope (floor) at a time, looking for the identifier, until they get to the global (top floor) and stop. They either find it, or don't.
 * Unfulfilled RHS references result in `ReferenceError`s being thrown. Unfulfilled LHS references result in an automatic, implicitly-created global of that name (if not in "Strict Mode" [^note-strictmode]), or a `ReferenceError` (if in "Strict Mode" [^note-strictmode]).
+
+## Chapter 2: Lexical Scope
+
+**JavaScript uses the *lexical* scope model.**
+
+### Lex-time
+
+The first traditional phase of a standard language compiler is called lexing (aka, tokenizing).
+
+The lexing process examines a string of source code characters and assigns semantic meaning to the tokens as a result of some stateful parsing. Scope look-up stops once it find the first match and works inner --> outer.
+
+Lexical scope is scope that is defined at lexing time. In other words, lexical scope is based on where variables and blocks of scope are authored, by you, at write time, and thus is (mostly) set in stone by the time the lexer processes your code.
+
+Possible to access global var using window e.g. window.a
+
+#### Look-ups
+
+The structure and relative placement of scope bubbles fully explains to the *Engine* all the places it needs to look to find an identifier.
+
+**Scope look-up stops once it finds the first match**.
+
+**Note:** Global variables are also automatically properties of the global object (`window` in browsers, etc.), so it *is* possible to reference a global variable not directly by its lexical name, but instead indirectly as a property reference of the global object.
+
+### Cheating Lexical
+
+There are two main ways to cheat lexical scope discussed in this chapter.
+
+#### `eval`
+
+The `eval(..)` function in JavaScript takes a string as an argument, and treats the contents of the string as if it had actually been authored code at that point in the program. In other words, you can programmatically generate code inside of your authored code, and run the generated code as if it had been there at author time.
+
+#### `with`
+
+The other frowned-upon (and now deprecated!) feature in JavaScript which cheats lexical scope is the `with` keyword. There are multiple valid ways that `with` can be explained, but I will choose here to explain it from the perspective of how it interacts with and affects lexical scope.
+
+`with` is typically explained as a short-hand for making multiple property references against an object *without* repeating the object reference itself each time.
+
+#### Performance
+
+Your code will almost certainly tend to run slower because the compiler will not optimize it if you include an `eval(..)` or `with` anywhere in the code. No matter how smart the *Engine* may be about trying to limit the side-effects of these pessimistic assumptions, **there's no getting around the fact that without the optimizations, code runs slower.**
+
+### Review (TL;DR)
+
+Lexical scope means that scope is defined by author-time decisions of where functions are declared. The lexing phase of compilation is essentially able to know where and how all identifiers are declared, and thus predict how they will be looked-up during execution.
+
+Two mechanisms in JavaScript can "cheat" lexical scope: `eval(..)` and `with`. The former can modify existing lexical scope (at runtime) by evaluating a string of "code" which has one or more declarations in it. The latter essentially creates a whole new lexical scope (again, at runtime) by treating an object reference *as* a "scope" and that object's properties as scoped identifiers.
+
+The downside to these mechanisms is that it defeats the *Engine*'s ability to perform compile-time optimizations regarding scope look-up, because the *Engine* has to assume pessimistically that such optimizations will be invalid. Code *will* run slower as a result of using either feature. **Don't use them.**
+
+
+
