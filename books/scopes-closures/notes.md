@@ -110,4 +110,156 @@ Two mechanisms in JavaScript can "cheat" lexical scope: `eval(..)` and `with`. T
 The downside to these mechanisms is that it defeats the *Engine*'s ability to perform compile-time optimizations regarding scope look-up, because the *Engine* has to assume pessimistically that such optimizations will be invalid. Code *will* run slower as a result of using either feature. **Don't use them.**
 
 
+## Chapter 3: Function vs. Block Scope
 
+### Scope From Functions
+
+Each function you declare creates a scope for itself, but no other structures create their own scope bubbles. However, this is not quite true.
+
+Function scope encourages the idea that all variables belong to the function, and can be used and reused throughout the entirety of the function (and indeed, accessible even to nested scopes). This design approach can be quite useful, and certainly can make full use of the "dynamic" nature of JavaScript variables to take on values of different types as needed.
+
+On the other hand, if you don't take careful precautions, variables existing across the entirety of a scope can lead to some unexpected pitfalls.
+
+### Hiding In Plain Scope
+
+The traditional way of thinking about functions is that you declare a function, and then add code inside it. But the inverse is equally powerful and useful: **take any arbitrary section of code you've written, and wrap a function declaration around it, which in effect "hides" the code.**
+
+The practical result is to create a scope bubble around the code in question, which means that any declarations (variable or function) in that code will be tied to the scope of the new wrapping function, rather than the previously enclosing scope.
+
+In other words, you can "hide" variables and functions by enclosing them in the scope of a function.
+
+##### Why would "hiding" variables and functions be a useful technique?
+
+There's a variety of reasons motivating this scope-based hiding. They tend to arise from the software design principle "Principle of Least Privilege" [^note-leastprivilege]. This principle states that in the design of software, such as the API for a module/object, you should expose only what is minimally necessary, and "hide" everything else.
+
+This principle extends to the choice of which scope to contain variables and functions. If all variables and functions were in the global scope, they would of course be accessible to any nested scope. But this would violate the "Least..." principle in that you are (likely) exposing many variables or functions which you should otherwise keep private, as proper use of the code would discourage access to those variables/functions.
+
+#### Collision Avoidance
+
+Another benefit of "hiding" variables and functions inside a scope is to avoid unintended collision between two different identifiers with the same name but different intended usages. Collision results often in unexpected overwriting of values.
+
+##### Global "Namespaces"
+
+A particularly strong example of (likely) variable collision occurs in the global scope. Multiple libraries loaded into your program can quite easily collide with each other if they don't properly hide their internal/private functions and variables.
+
+
+##### Module Management
+
+Another option for collision avoidance is the more modern "module" approach, using any of various dependency managers. Using these tools, no libraries ever add any identifiers to the global scope, but are instead required to have their identifier(s) be explicitly imported into another specific scope through usage of the dependency manager's various mechanisms.
+
+
+### Functions As Scopes
+
+We've seen that we can take any snippet of code and wrap a function around it, and that effectively "hides" any enclosed variable or function declarations from the outside scope inside that function's inner scope.
+
+It would be more ideal if the function didn't need a name (or, rather, the name didn't pollute the enclosing scope), and if the function could automatically be executed.
+
+**IIFE**
+
+#### Anonymous vs. Named
+
+Anonymous function expressions are quick and easy to type, and many libraries and tools tend to encourage this idiomatic style of code. However, they have several draw-backs to consider:
+
+1. Anonymous functions have no useful name to display in stack traces, which can make debugging trickier.
+
+2. Without a name, if the function needs to refer to itself, e.g. for recursion, the **deprecated** `arguments.callee` reference is required. Another example of needing to self-reference is when an event handler function wants to unbind itself after it fires.
+
+3. Anonymous functions omit a name that is often helpful in providing more readable/understandable code. A descriptive name helps self-document the code in question.
+
+**Inline function expressions** are powerful and useful -- the question of anonymous vs. named doesn't detract from that. Providing a name for your function expression quite effectively addresses all these draw-backs, but has no tangible downsides. The best practice is to always name your function expressions
+
+#### Invoking Function Expressions Immediately
+
+**IIFE**
+```js
+var a = 2;
+
+(function foo(){
+
+    var a = 3;
+    console.log( a ); // 3
+
+})();
+
+console.log( a ); // 2
+```
+
+### Blocks As Scopes
+
+While functions are the most common unit of scope, and certainly the most wide-spread of the design approaches in the majority of JS in circulation, other units of scope are possible, and the usage of these other scope units can lead to even better, cleaner to maintain code.
+
+
+```js
+for (var i=0; i<10; i++) {
+    console.log( i );
+}
+```
+
+
+#### `with`
+
+We learned about `with` in Chapter 2. While it is a frowned upon construct, it *is* an example of (a form of) block scope, in that the scope that is created from the object only exists for the lifetime of that `with` statement, and not in the enclosing scope.
+
+#### `try/catch`
+
+It's a *very* little known fact that JavaScript in ES3 specified the variable declaration in the `catch` clause of a `try/catch` to be block-scoped to the `catch` block.
+
+For instance:
+
+```js
+try {
+    undefined(); // illegal operation to force an exception!
+}
+catch (err) {
+    console.log( err ); // works!
+}
+
+console.log( err ); // ReferenceError: `err` not found
+```
+
+As you can see, `err` exists only in the `catch` clause, and throws an error when you try to reference it elsewhere.
+
+
+#### `let`
+
+Fortunately, ES6 changes that, and introduces a new keyword `let` which sits alongside `var` as another way to declare variables.
+
+The `let` keyword attaches the variable declaration to the scope of whatever block (commonly a `{ .. }` pair) it's contained in. In other words, `let` implicitly hijacks any block's scope for its variable declaration.
+
+
+##### Garbage Collection
+
+Another reason block-scoping is useful relates to closures and garbage collection to reclaim memory.
+
+Declaring explicit blocks for variables to locally bind frees those variables up explicitly at the end of the block for garbage collection.
+
+##### `let` Loops
+
+A particular case where `let` shines is in the for-loop case as we discussed previously.
+
+```js
+for (let i=0; i<10; i++) {
+    console.log( i );
+}
+
+console.log( i ); // ReferenceError
+```
+
+Not only does `let` in the for-loop header bind the `i` to the for-loop body, but in fact, it **re-binds it** to each *iteration* of the loop, making sure to re-assign it the value from the end of the previous loop iteration.
+
+#### `const`
+
+In addition to `let`, ES6 introduces `const`, which also creates a block-scoped variable, but whose value is fixed (constant).
+
+
+### Review (TL;DR)
+
+Functions are the most common unit of scope in JavaScript. Variables and functions that are declared inside another function are essentially "hidden" from any of the enclosing "scopes", which is an intentional design principle of good software.
+
+But functions are by no means the only unit of scope. Block-scope refers to the idea that variables and functions can belong to an arbitrary block (generally, any `{ .. }` pair) of code, rather than only to the enclosing function.
+
+Starting with ES3, the `try/catch` structure has block-scope in the `catch` clause.
+
+In ES6, the `let` keyword (a cousin to the `var` keyword) is introduced to allow declarations of variables in any arbitrary block of code. `if (..) { let a = 2; }` will declare a variable `a` that essentially hijacks the scope of the `if`'s `{ .. }` block and attaches itself there.
+
+Though some seem to believe so, block scope should not be taken as an outright replacement of `var` function scope. Both functionalities co-exist, and developers can and should use both function-scope and block-scope techniques where respectively appropriate to produce better, more readable/maintainable code.
