@@ -10,9 +10,9 @@
 
 | Progress | Type | Item | Project(s) | Notes | Reflections |
 |------|------|------|------------|-------|-------|
-| Started 23/12/2016  | Book | [YDKJS: Up & Going](https://github.com/getify/You-Dont-Know-JS/blob/master/up%20&%20going/README.md#you-dont-know-js-up--going) |  |    |     |
-|   | Book | [YDKJS: Scope & Closures](https://github.com/getify/You-Dont-Know-JS/blob/master/scope%20&%20closures/README.md#you-dont-know-js-scope--closures) |   |    |     |
-|   | Book | [YDKJS: this & Object Prototypes](https://github.com/getify/You-Dont-Know-JS/blob/master/this%20&%20object%20prototypes/README.md#you-dont-know-js-this--object-prototypes) |   |    |     |
+| Completed 30/12/2016  | Book | [YDKJS: Up & Going](https://github.com/getify/You-Dont-Know-JS/blob/master/up%20&%20going/README.md#you-dont-know-js-up--going) |  |    |     |
+| Completed 04/01/2017  | Book | [YDKJS: Scope & Closures](https://github.com/getify/You-Dont-Know-JS/blob/master/scope%20&%20closures/README.md#you-dont-know-js-scope--closures) |   |    |     |
+| Started 04/01/2017  | Book | [YDKJS: this & Object Prototypes](https://github.com/getify/You-Dont-Know-JS/blob/master/this%20&%20object%20prototypes/README.md#you-dont-know-js-this--object-prototypes) |   |    |     |
 |   | Course | [Learn to Code HTML & CSS](http://learn.shayhowe.com/html-css/)  by Shay Howe |   |    |     |
 |   | Project | Clone [this online resume](https://creativemarket.com/ikonome/686585-Material-Resume-Blue/screenshots/#screenshot2) |   |    |     |
 |   | Course | [CS50](https://courses.edx.org/courses/course-v1%3AHarvardX%2BCS50%2BX/)  on edX |   |    |    |
