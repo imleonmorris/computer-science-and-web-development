@@ -979,39 +979,206 @@ You can also iterate over **the values** in data structures (arrays, objects, et
 
 ## Chapter 4: Mixing (Up) "Class" Objects
 
+This chapter looks at:
 
-Class Theory
+- class orientation as a design pattern
+- instatiation
+- inheritance
+- polymorphism
 
-Class Mechanics
+#### Class Theory
 
-Class Inheritance
+Class is essentially just a form of code organisation/architecture. A way of modelling real world problems.
 
-Mixins
+It is stressed that data has intrinsic behaviours that operate on it, depending what it is. Proper design is to package up the data and behaviour together. Aka - _data structures_.
+
+E.g. A word is usually a "string". The chracters are the data. But we don't just care about that, we want to _do stuff_. So the behaviours that can apply _to_ that data are designed as methods of a `String~ class.
+
+Any given string is an instance of this class.
+
+The relationship between `Vehicle` and `Car` is well documented.
+
+The `Vehicle` is defined by all the stuff that is common to all (well, most) different types of vehicles. A `Car` _inherits_ the base definition from `Vehicle`. It is said to specialise the general `Vehicle` definition. Data in an instance would be things like the unique VIN of a specific car...
+
+Thus: **classes, inheritance, instantiation**.
+
+Polymorphism describes how a child class can override the general behaviour of its parent class - to give it more specifics. _Relative_ polymorphism lets us reference the base behaviour from the overridden behaviour.
+
+##### "Class" Design Pattern
+
+Languages such as Java make _everything_ a class. Other languages such as C/C++ or PHP give you both procedural and class-oriented syntaxes.
+
+##### JavaScipt "Classes"
+
+**JavaScript does not have classes**.
+
+Classes are a design pattern and we can implement approximation for classical class functionality. However, despite the syntax of classes - the mechanisms that you build on operate quite differently.
+
+Truth is, we're faking it in JS. Classes are an optional pattern in software design, and you have the choice to use them. This chapter looks more into classes - but JS does not have them.
+
+#### Class Mechanics
+
+##### Building
+
+Metaphor for "class" and "instance" comes from a building construction.
+
+Think blue-prints and copies of a building.
+
+The blue-print is a class.
+
+The copy is an instantiation. The end result is an object (an instance) - and and is described by the class.
+
+**A class is instantiated into object form by a copy operation**.
+
+##### Constuctor
+
+Instances of classes are constructed by a special method of the class, usually of the same name as the class - called a _constructor_.
+
+The constructor of a class _belongs_ to the class, almost universally with the same name. They pretty much always need to be called with `new`. This lets the engine know you want to construct a _new_ class instance.
+
+#### Class Inheritance
+
+You can define a class which can instantiate itself - but also define another class which **inherits** from the first class. This is said to be a "child class".
+
+It's important to remember that we're talking about parent and child **classes** - which aren't physical things!
+
+##### Polymorphism
+
+This is the idea that any method can reference another method of a higher level of the inheritance hierarchy.
+
+##### Multiple Inheritance
+
+Some class-oriented languages allow you to specify more than one "parent" class to inherit from.
+
+There are some issues. If two parent classes provide the same method but in different versions - which does the class inherit?
+
+Also - diamond problem.
+
+NB: JavaScript is simpler than this. It does not provide a mechanism for "multiple inheritance". Many see this as a good thing.
+
+#### Mixins
+
+JavaScripts object mechanism does not _automatically_ perform copy behaviour when you "inherit"/"instanstiate". Remember - there are no "classes" to instantiate! Only objects.
+
+Objects don't get copied, they get _linked together_.
+
+##### Explicit Mixins
+
+We can actually use a utility `extend(..)` or `mixin(..)` that creates a manual copy of behaviours.
+
+Properties that already exists in one object do not get copied by the "parent".
+
+###### "Polymophism" Revisted
+
+Try not to use this JS as the cost outweighs the benefits.
+
+###### Mixing Copies
+
+What we end up with, when using mixins, is not actually an emulation from the real duplication between class and instance (that you get from class-oriented languages). You end up with a **duplicated reference**.
+
+Truth is, explicit mixins arent that powerful - you could just type out the code and define the properties twice (once in each object).
+
+###### Parasitic Inheritance
+
+A variation of explicit mixin pattern.
+
+```js
+
+// "Traditional JS Class" `Vehicle`
+function Vehicle() {
+    this.engines = 1;
+}
+Vehicle.prototype.ignition = function() {
+    console.log( "Turning on my engine." );
+};
+Vehicle.prototype.drive = function() {
+    this.ignition();
+    console.log( "Steering and moving forward!" );
+};
+
+// "Parasitic Class" `Car`
+function Car() {
+    // first, `car` is a `Vehicle`
+    var car = new Vehicle();
+
+    // now, let's modify our `car` to specialize it
+    car.wheels = 4;
+
+    // save a privileged reference to `Vehicle::drive()`
+    var vehDrive = car.drive;
+
+    // override `Vehicle::drive()`
+    car.drive = function() {
+        vehDrive.call( this );
+        console.log( "Rolling on all " + this.wheels + " wheels!" );
+    };
+
+    return car;
+}
+
+var myCar = new Car();
+
+myCar.drive();
+// Turning on my engine.
+// Steering and moving forward!
+// Rolling on all 4 wheels!
+
+```
+
+We initally make a copy of the definition from the `Vehicle` parent class (object), then mixin out child class (object) definition. We then pass off this composed object `car` as our child instance.
+
+##### Implicit Mixins
+
+Closely related to _explicit pseudo-polymorphism_.
+
+```js
+
+var Something = {
+    cool: function() {
+        this.greeting = "Hello World";
+        this.count = this.count ? this.count + 1 : 1;
+    }
+};
+
+Something.cool();
+Something.greeting; // "Hello World"
+Something.count; // 1
+
+var Another = {
+    cool: function() {
+        // implicit mixin of `Something` to `Another`
+        Something.cool.call( this );
+    }
+};
+
+Another.cool();
+Another.greeting; // "Hello World"
+Another.count; // 1 (not shared state with `Something`)
+
+```
+
+We have "mixed in" `Something`s behaviour with `Another` using `Something.cool.call(this)`.
+
+It is generally best to avoid such constructs where possible - keeping cleaner and more maintainable code.
+
+##### Review (TL;DR)
+
+Classes are a design pattern. Many languages provide syntax which enables natural class-oriented software design. JS also has a similar syntax, but it behaves **very differently** from what you're used to with classes in those other languages.
+
+**Classes mean copies.**
+
+When traditional classes are instantiated, a copy of behavior from class to instance occurs. When classes are inherited, a copy of behavior from parent to child also occurs.
+
+Polymorphism (having different functions at multiple levels of an inheritance chain with the same name) may seem like it implies a referential relative link from child back to parent, but it's still just a result of copy behavior.
+
+JavaScript **does not automatically** create copies (as classes imply) between objects.
+
+The mixin pattern (both explicit and implicit) is often used to sort of emulate class copy behavior, but this usually leads to ugly and brittle syntax like explicit pseudo-polymorphism (`OtherObj.methodName.call(this, ...)`), which often results in harder to understand and maintain code.
+
+Explicit mixins are also not exactly the same as class copy, since objects (and functions!) only have shared references duplicated, not the objects/functions duplicated themselves. Not paying attention to such nuance is the source of a variety of gotchas.
+
+In general, faking classes in JS often sets more landmines for future coding than solving present real problems.
 
 
-## Chapter 5: Prototypes
-
-
-[[Prototype]]
-
-"Class"
-
-"(Prototypal) Inheritance"
-
-Object Links
-
-
-## Chapter 6: Behavior Delegation
-
-
-Towards Delegation-Oriented Design
-
-Classes vs. Objects
-
-Simpler Design
-
-Nicer Syntax
-
-Introspection
 
 
