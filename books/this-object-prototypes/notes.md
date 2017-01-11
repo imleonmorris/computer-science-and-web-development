@@ -1179,6 +1179,372 @@ Explicit mixins are also not exactly the same as class copy, since objects (and 
 
 In general, faking classes in JS often sets more landmines for future coding than solving present real problems.
 
+## Chapter 5: Prototypes
 
+All attempts to emulate class-copy behaviour (mixins) completely circumnavigate the `[[Prototype]]` chain mechanism.
 
+#### `[[Prototype]]`
 
+Internal properties which are a reference to another object. Almost all objects are given a non-`null` value for this value, at time of creation.
+
+Lets take the previous code:
+
+```js
+
+var anotherObject = {
+    a: 2
+};
+
+// create an object linked to `anotherObject`
+var myObject = Object.create( anotherObject );
+
+myObject.a;     // 2
+```
+
+Clearly, myObject.a doesnt _actually_ exist but nevertheless, the property access succeeds as now the two objects are `[[Prototype]]` linked.
+
+However, if `a` weren't found on `anotherObject`, its `[[Prototype]]` chain, if no-empty, is again consulted and followed. It continues until a matching property name is found, or the chain ends (and the `[[Get]]` operation returns `undefined`).
+
+**So, the `[[Prototype]]` chain is consulted, one link at a time, when property look-up performed. This look-up stops once property found or chain ends.**
+
+##### `Object'prototype`
+
+But where dores the chain "end"?
+
+The top-end of every _normal_ `[[Prototype]]` chain is the built in `Object.prototype`. This has built-in utilities from which the chain descends.
+
+Such common ones can include:
+
+1. `.toString()`
+2. `.valueOf()`
+3. `.hasOwnProperty(..)`
+4. `.isPrototypeOf(..)`
+
+##### Setting & Shadowing Properties
+
+Let's revisit a couple of things:
+
+```js
+
+myObject.foo = "bar";
+
+```
+One of a few things could happen:
+
+- First, if `myObject` already has norrmal data accessor property `foo` directly present on it, the assignment simply changes existing value.
+- If `foo` not already directly present on `myObject`, the `[[Prototype]]` chain is traversed. If `foo` not found, the property is added directly onto the object with the specifed value (`"bar"`).
+- If `foo` is already present, but somewhere higher in the chain, something more nuanced happens.
+- If `foo` ends up on both `myObject` and higher up the chain, this is called _shadowing_. It shadows the `foo` which appears higher up the chain.
+
+3 examples where `foo` is not directly on the object but _is_ higher up the chain.
+
+1. If a normal data accessor is higher on the `[[Prototype]]` chain, **and _is not_ marked as `writable:false`** then new property `foo` is added directly to `myObject` resulting in a **shadowed property**.
+2. If a normal data accessor is higher on the `[[Prototype]]` chain, **and _is_ marked as `writable:false`**, then both properties are **disallowed**. `Strict mode` code will call an error. **No shadowing allowed**.
+3. If the `foo` higher up the chain is a setter, then the setter will always be called. No `foo` is added (shadowed on), and niether will the `foo` setter be redefined.
+
+NB: Try to avoid shadowing methods, as it leads to _explicit pseudo-polymorphism_.
+
+Lastly, care must be taken with implicit shadowing:
+
+```js
+
+var anotherObject = {
+    a: 2
+};
+
+var myObject = Object.create( anotherObject );
+
+anotherObject.a; // 2
+myObject.a; // 2
+
+anotherObject.hasOwnProperty( "a" ); // true
+myObject.hasOwnProperty( "a" ); // false
+
+myObject.a++; // oops, implicit shadowing!
+
+anotherObject.a; // 2
+myObject.a; // 3
+
+myObject.hasOwnProperty( "a" ); // true
+
+```
+
+`myObject.a++` should look up and just increment `anotherObject.a` but it does not do this. In fact, it does this: `myObject.a = myObject.a + 1`.
+
+If we still want to increment it, what should've been done is this: `anotherObject.a++`.
+
+#### "Class"
+
+JS _just_ has objects and no classes.
+
+##### "Class" Functions
+
+People seem to hack something that looks like "classes" in JS. It hinges on a strange characteristic of functions: all functions get a public, non-enumerable property on them called `prototype` which points at an otherwise arbitrary object. It is often called "Foo's prototype".
+
+So, each object created using `new Foo()`:
+
+```js
+function Foo() {
+    // ...
+}
+
+var a = new Foo();
+
+Object.getPrototypeOf( a ) === Foo.prototype;   // true
+```
+
+When `a` is created by calling `new Foo()`, `a` gets an internal `[[Prototype]]` link to the object that `Foo.prototype` is pointing at.
+
+**We end up with two objects, linked to each other**. That's _it_.
+
+The term "prototypal inheritance" has done more harm than good as this implies the wrong ideas of what is happening here.
+
+"Inheritance" implies a _copy_ operation and JS doesn't copy object properties by default, it creates a link between two objects instead. "Delegation" is much more accurate as one object can essentially _delegate_ property/function access to another object.
+
+##### "Constructors"
+
+Functions themselves are **not** constructores. However, when you use th keyword `new`, with a normal function call, it turns it into a 'constructor call'. It is called, in a fashion such that it constructs an object, **in addition to whatever else it was going to do**.
+
+This is an important distinction to normal class theory. In JS, functions aren't constructors, but function calls are "contructor calls" iff `new` is used.
+
+##### Mechanics
+
+JS devs have employed other techniques to simulate class-orientation
+
+```js
+function Foo(name) {
+    this.name = name;
+}
+
+Foo.prototype.myName = function() {
+    return this.name;
+};
+
+var a = new Foo( "a" );
+var b = new Foo( "b" );
+
+a.myName(); // "a"
+b.myName(); // "b"
+```
+
+1. `this.name = name`: adds the `.name` property onto each object (similar to how class instance encapsulate data values).
+2. `Foo.prototype.myname = ...`: more interesting. Add property (function) to the `Foo.prototype` object. Now `a.myName()` works - but how??
+
+NB: the propertis/functions **_are not_** copied from the `Foo.prototype` object to `a` and `b`. They have ended up with an internal `[[Prototype]]` linkage to `Foo.prototype`. When `myName` is not found on `a` or `b`, it's instead found on `Foo.prototype` (through delegation).
+
+Also, remember how `a.constructor === Foo` seemed like `a` has an actual `.constructor` property and points to `Foo`? Not true. It's also _delegated_ up to `Foo.prototype` which **happens to** have a `.constructor` that point to `Foo` by default.
+
+In essence, arbitrary object-property references like `a1.constructor` cannot be trusted to be the assumed default function reference. It is extremely unreliable and such references should be avoided.
+
+#### "(Prototypal) Inheritance"
+
+Here's the typical "prototype style" code:
+
+```js
+
+function Foo(name) {
+    this.name = name;
+}
+
+Foo.prototype.myName = function() {
+    return this.name;
+};
+
+function Bar(name,label) {
+    Foo.call( this, name );
+    this.label = label;
+}
+
+// here, we make a new `Bar.prototype`
+// linked to `Foo.prototype`
+Bar.prototype = Object.create( Foo.prototype );
+
+// Beware! Now `Bar.prototype.constructor` is gone,
+// and might need to be manually "fixed" if you're
+// in the habit of relying on such properties!
+
+Bar.prototype.myLabel = function() {
+    return this.label;
+};
+
+var a = new Bar( "a", "obj a" );
+
+a.myName(); // "a"
+a.myLabel(); // "obj a"
+
+```
+
+`Bar.protoype = Object.create( Foo.prototype )` is important:
+
+- `Object.create(..)` _creates_ a "new" object out of thin air
+- it links to that new object's internal `[[Prototype]]` to the object you specify.
+
+In other words: "make a _new_ 'Bar dot prototype' object that's linked to 'Foo dot prototype'".
+
+##### Inspecting "Class" Relationship
+
+If you have an object `a` and want to find what objects it delegates to, you can use _introspection_ in trad class-oriented environments.
+
+We can use `instanceof`. It takes a plain object as its left operand and a **function** as it's right one. The question `instanceof` answers: **in the entire `[[Prototype]]` chain of `a`, does the object arbitariliy pointed to by `Foo.prototype` ever appear?
+
+This does mean you can only enquire about the "ancestry" though. If you have two objects and you want to see if they are linked somehow, `instanceof` doesn't actually help.
+
+What's cleaner and simpler is using `isPrototypeOf(..)`:
+
+```js
+
+Foo.prototype.isPrototypeOf( a );   // true
+
+```
+
+The question here is: **In the entire `[[Prototype]]` chain of `a`, does `Foo.prototype` ever appear?
+
+We just need two **objects**.
+
+```js
+// Simply: does `b` appear anywhere in
+// `c`s [[Prototype]] chain?
+b.isPrototypeOf( c );
+```
+
+We can also directly retrieve the `[[Prototype]]` of an object:
+
+```js
+Object.getPrototypeOf( a );
+```
+
+Can also use the strange `.__proto__` which retrieves in the internal `[[Prototype]]` of an object as a reference:
+
+```js
+Object.getPrototypeOf( a ) === Foo.prototype;   // true
+
+a.__proto__ === Foo.prototype;  // true
+
+```
+
+We could roughly see it used like this:
+
+```js
+Object.defineProperty( Object.prototype, "__proto__", {
+    get: function() {
+        return Object.getPrototypeOf( this );
+    },
+    set: function(o) {
+        // setPrototypeOf(..) as of ES6
+        Object.setPrototypeOf( this, o );
+        return o;
+    }
+} )
+```
+
+`.__proto__` is also a settable property, just like using ES6's `Object.setPrototypeOf(..)` shown earlier. However, generally you should not change the `[[Prototype]]` of an existing object.
+
+Note: The JavaScript community unofficially coined a term for the double-underscore, specifically the leading one in properties like `__proto__`: "dunder". So, the "cool kids" in JavaScript would generally pronounce `__proto__` as "dunder proto".
+
+#### Object Links
+
+As we've now seen, the `[[Prototype]]` mechanism is an internal link that exists on one object which references some other object.
+
+##### `Create()`ing Links
+
+Why do so many JS devs go to the trouble of emulating classes in their code to wire up linkages?
+
+```js
+Let's introduce `Object.create(..)`:
+
+var foo = {
+    something: function() {
+        console.log( "Tell me something good..." );
+    }
+};
+
+var bar = Object.create( foo );
+
+bar.something(); // Tell me something good...
+```
+
+`Object.create(..)` creates a new object (`bar`) linked to the object we specified (`foo`), which gives us all the power (delegation) of the `[[Prototype]]` mechanism, but without any of the unnecessary complication of `new` functions acting as classes and constructor calls, confusing `.prototype` and `.constructor` references, or any of that extra stuff.
+
+We don't need classes to create meaningful relationships between two objects. The only thing we should **really care about** is objects linked together for delegation, and `Object.create(..)` gives us that linkage without all the class rubbish.
+
+###### `Object.create()` Polyfilled
+
+Older JS environments may not support this so a simple **partial** polyfill will be needed:
+
+```js
+
+if (!Object.create) {
+    Object.create = function(o) {
+        function F(){}
+        F.prototype = o;
+        return new F();
+    };
+}
+
+```
+
+This polyfill works by using a throw-away `F` function and overriding its `.prototype` property to point to the object we want to link to. Then we use `new F()` construction to make a new object that will be linked as we specified.
+
+Some devs don't agree with partial polyfilling and require a strict view where no function should be polyfilled unless it can be _fully_ polyfilled.
+
+##### Links As Fallbacks?
+
+It may be tempting to think that these links between objects primarily provide a sort of fallback for "missing" properties or methods. While that may be an observed outcome, I don't think it represents the right way of thinking about `[[Prototype]]`.
+
+Consider:
+
+```js
+
+var anotherObject = {
+    cool: function() {
+        console.log( "cool!" );
+    }
+};
+
+var myObject = Object.create( anotherObject );
+
+myObject.cool(); // "cool!"
+
+```
+
+This will work by virtue of `[[Prototype]]` but it appears a bit 'magical' to other devs.
+
+```js
+
+You can however design your API with less "magic" to it, but still take advantage of the power of [[Prototype]] linkage.
+
+var anotherObject = {
+    cool: function() {
+        console.log( "cool!" );
+    }
+};
+
+var myObject = Object.create( anotherObject );
+
+myObject.doCool = function() {
+    this.cool(); // internal delegation!
+};
+
+myObject.doCool(); // "cool!"
+
+```
+
+Here, we call `myObject.doCool()`, which is a method that _actually exists_ on `myObject`, making our API design more explicit (less "magical"). _Internally_, our implementation follows the **delegation design pattern** (see Chapter 6), taking advantage of `[[Prototype]]` delegation to `anotherObject.cool()`.
+
+In other words, delegation will tend to be less surprising/confusing if it's an internal implementation detail rather than plainly exposed in your API interface design. Will expound on **delegation** in great detail in the next chapter.
+
+#### Review (TL;DR)
+
+When attempting a property access on an object that doesn't have that property, the object's internal `[[Prototype]]` linkage defines where the `[[Get]]` operation (see Chapter 3) should look next. This cascading linkage from object to object essentially defines a "prototype chain" (somewhat similar to a nested scope chain) of objects to traverse for property resolution.
+
+All normal objects have the built-in `Object.prototype` as the top of the prototype chain (like the global scope in scope look-up), where property resolution will stop if not found anywhere prior in the chain. `toString()`, `valueOf()`, and several other common utilities exist on this `Object.prototype` object, explaining how all objects in the language are able to access them.
+
+The most common way to get two objects linked to each other is using the `new` keyword with a function call, which among its four steps (see Chapter 2), it creates a new object linked to another object.
+
+The "another object" that the new object is linked to happens to be the object referenced by the arbitrarily named `.prototype` property of the function called with `new`. Functions called with `new` are often called "constructors", despite the fact that they are not actually instantiating a class as _constructors_ do in traditional class-oriented languages.
+
+While these JavaScript mechanisms can seem to resemble "class instantiation" and "class inheritance" from traditional class-oriented languages, the key distinction is that in JavaScript, no copies are made. Rather, objects end up linked to each other via an internal `[[Prototype]]` chain.
+
+For a variety of reasons, not the least of which is terminology precedent, "inheritance" (and "prototypal inheritance") and all the other OO terms just do not make sense when considering how JavaScript _actually_ works (not just applied to our forced mental models).
+
+Instead, "delegation" is a more appropriate term, because these relationships are not copies but delegation **links**.
