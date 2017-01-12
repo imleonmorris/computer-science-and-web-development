@@ -1548,3 +1548,138 @@ While these JavaScript mechanisms can seem to resemble "class instantiation" and
 For a variety of reasons, not the least of which is terminology precedent, "inheritance" (and "prototypal inheritance") and all the other OO terms just do not make sense when considering how JavaScript _actually_ works (not just applied to our forced mental models).
 
 Instead, "delegation" is a more appropriate term, because these relationships are not copies but delegation **links**.
+
+## Chapter 6: Behaviour Delegation
+
+Remember, the `[[Prototype]]` mechanism is an internal link that exists on one object which references another object.
+
+This linkage is exercised when a property/method reference is made against the first object, and no such property/method exists. In that case, the `[[Prototype]]` linkage tells the engine to look for the property/method on the linked-to object. In turn, if that object cannot fulfill the look-up, its `[[Prototype]]` is followed, and so on. This series of links between objects forms what is called the "prototype chain".
+
+In other words, the actual mechanism, the essence of what's important to the functionality we can leverage in JavaScript, is *all about objects being linked to other objects*.
+
+That single observation is fundamental and critical to understanding the motivations and approaches for the rest of this chapter!
+
+#### Towards Delegation-Oriented Design
+
+Let's try change our thinking from class/inheritance design pattern, to behaviour delegation design pattern.
+
+##### Delegation Theory
+
+1. Define an **object**, and it will have a concrete behaviour on it that includes utility methods that various tasks can use (_delegate to_).
+2. For each task, define and **object** to hold that task-specific data/behaviour.
+3. **Link** your task-specific object(s) to the main utility object, allowing them to delegate when needed.
+
+```js
+
+var Task = {
+    setID: function(ID) { this.id = ID; },
+    outputID: function() { console.log( this.id ); }
+};
+
+// make `XYZ` delegate to `Task`
+var XYZ = Object.create( Task );
+
+XYZ.prepareTask = function(ID,Label) {
+    this.setID( ID );
+    this.label = Label;
+};
+
+XYZ.outputTaskDetails = function() {
+    this.outputID();
+    console.log( this.label );
+};
+
+// ABC = Object.create( Task );
+// ABC ... = ...
+
+```
+
+In this code, `Task` and `XYZ` are not classes (or functions), they're just **objects**. `XYZ` is set up via `Object.creat(..)` to `[[Prototype]]` delegate to the the `Task` object.
+
+Other observations:
+
+1. `id` and `label` data members are data properties directly on `XYZ`. With `[[Prototype]]` delegation, **you want state to be on the delgators**.
+2. We named the parent/child **different things**. We did this to avoid name collisions which create awkward or brittle syntax to disambiguate references. It's important to name methods descriptively as it cana actually create easier to understand/maintain code.
+3. `this.setID(ID);` inside of a method on the `XYZ` object first looks on `XYZ` for `setID(..)`, but since it doesn't find a method of that name on `XYZ`, `[[Prototype]]` _delegation_ means it can follow the link to `Task` to look for `setID(..)`, which it of course finds. Moreover, because of implicit call-site `this` binding rules (see Chapter 2), when `setID(..)` runs, even though the method was found on `Task`, the `this` binding for that function call is `XYZ` exactly as we'd expect and want. We see the same thing with `this.outputID()` later in the code listing.
+
+NB: **Behaviour Delegation** means: let some object (`XYZ`) provide a delegation (to `Task`) for property or method references if not found on the object (`XYZ`).
+
+This is a very powerful design pattern.
+
+Cannot create a _cycle_ where two or more objects are mutually delegated to each other.
+
+##### OO vs. OLOO
+
+We'll examine some more theoretical ("Foo", "Bar") code, and compare both ways (OO vs. OLOO) of implementing the code.
+
+The first snippet uses the classical ("prototypal") OO style:
+
+```js
+
+function Foo(who) {
+    this.me = who;
+}
+Foo.prototype.identify = function() {
+    return "I am " + this.me;
+};
+
+function Bar(who) {
+    Foo.call( this, who );
+}
+Bar.prototype = Object.create( Foo.prototype );
+
+Bar.prototype.speak = function() {
+    alert( "Hello, " + this.identify() + "." );
+};
+
+var b1 = new Bar( "b1" );
+var b2 = new Bar( "b2" );
+
+b1.speak();
+b2.speak();
+
+```
+
+Parent class `Foo`, inherited by child class `Bar`, which is then instantiated twice as `b1` and `b2`. What we have is `b1` delegating to `Bar.prototype` which delegates to `Foo.prototype`. This should look fairly familiar to you, at this point. Nothing too ground-breaking going on.
+
+
+Now, let's implement **the exact same functionality** using OLOO style code:
+
+```js
+
+var Foo = {
+    init: function(who) {
+        this.me = who;
+    },
+    identify: function() {
+        return "I am " + this.me;
+    }
+};
+
+var Bar = Object.create( Foo );
+
+Bar.speak = function() {
+    alert( "Hello, " + this.identify() + "." );
+};
+
+var b1 = Object.create( Bar );
+b1.init( "b1" );
+var b2 = Object.create( Bar );
+b2.init( "b2" );
+
+b1.speak();
+b2.speak();
+
+```
+
+We take exactly the same advantage of `[[Prototype]]` delegation from `b1` to `Bar` to `Foo` as we did in the previous snippet between `b1`, `Bar.prototype`, and `Foo.prototype`. **We still have the same 3 objects linked together**.
+
+#### Review (TL;DR)
+
+Classes and inheritance are a design pattern you can choose, or not choose, in your software architecture. Most developers take for granted that classes are the only (proper) way to organize code, but here we've seen there's another less-commonly talked about pattern that's actually quite powerful: **behavior delegation**.
+
+Behavior delegation suggests objects as peers of each other, which delegate amongst themselves, rather than parent and child class relationships. JavaScript's `[[Prototype]]` mechanism is, by its very designed nature, a behavior delegation mechanism. That means we can either choose to struggle to implement class mechanics on top of JS (see Chapters 4 and 5), or we can just embrace the natural state of `[[Prototype]]` as a delegation mechanism.
+
+When you design code with objects only, not only does it simplify the syntax you use, but it can actually lead to simpler code architecture design.
+
+**OLOO** (objects-linked-to-other-objects) is a code style which creates and relates objects directly without the abstraction of classes. OLOO quite naturally implements ``[[Prototype]]``-based behavior delegation.
