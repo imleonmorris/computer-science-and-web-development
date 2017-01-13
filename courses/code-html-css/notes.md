@@ -506,4 +506,236 @@ Once again, in this lesson we covered the following:
 - The HTML5 structural elements and how to define the structure and organization of our content and page
 - How to use hyperlinks to navigate between web pages or websites
 
+## Lesson 3: Getting to Know CSS
 
+Complex but powerful. Adds layout and design to pages.
+
+#### The Cascade
+
+Our styles cascade, with those towards to bottom of our stylesheet overwriting those towards the top.
+
+```css
+
+p {
+  background: orange;
+  font-size: 24px;
+}
+
+p {
+  background: green;
+}
+
+```
+
+The above would cause _all_ paragraphs to be green.
+
+This also applies with properties inside individual selectors. For example:
+
+```css
+
+p {
+  background: orange;
+  background: green;
+}
+
+```
+
+## Calculating Specificity
+
+Every selector in CSS has a specificty weight. These identify how its styles will be rendered.
+
+Order:
+
+1. ID: `1-0-0`
+2. Class: `0-1-0`
+3. Type: `0-0-1`
+
+The three columns go like this: ID-Class-Type.
+
+## Combining Selectors
+
+We can combine selectors to be more specific. They read from right to left, and the selector farthest to the right is known as the _key selector_.
+
+###### HTML
+
+```html
+
+<div class="hotdog">
+  <p>...</p>
+  <p>...</p>
+  <p class="mustard">...</p>
+</div>
+
+```
+
+###### CSS
+
+```css
+.hotdog p {
+  background: brown;
+}
+.hotdog p.mustard {
+  background: yellow;
+}
+
+```
+
+The above code `.hotdog p` combines a class and a type selector. The key is a type selector targeting paragraph elements. Because it is prequalified with the class selector `hotdog`, the full combined selector will only target paragraphs in an element with a class attribute value of `hotdog`.
+
+##### Specificity with Combined Selectors
+
+When selectors are combined, so are the weights of the individual selectors.
+
+From the above code, the first selector has weight `0-1-1` and the second has `0-2-1`. As such, the second will take greater precedence.
+
+In general, it's best to keep an eye on these weights. The higher our specificties rise, the greater chance of cascade breaks.
+
+#### Layering Styles with Multiple Classes
+
+We can keep our weights down by being as modular as possible by sharing styles from element to element. We can do this by layering on different styles by using multiple classes.
+
+Let's take buttons:
+
+###### HTML
+
+``` html
+
+<a class="btn btn-danger">...</a>
+<a class="btn btn-success">...</a>
+
+```
+
+###### CSS
+
+```css
+
+.btn {
+  font-size: 16px;
+}
+.btn-danger {
+  background: red;
+}
+.btn-success {
+  background: green;
+}
+
+```
+
+Here you can see two anchor elements, both with multiple class attribute values. The first class, `btn`, is used to apply a font size of `16` pixels to each of the elements. Then, the first anchor element uses an additional class of `btn-danger` to apply a `red` background color while the second anchor element uses an additional class of `btn-success` to apply a `green` background color. Our styles here are clean and modular.
+
+#### Common CSS Property Values
+
+We're going to look specifically at colors and lengths here
+
+##### Colors
+
+There are several ways to represent sRGB colors:
+
+1. keywords
+2. hexadecimal notation
+3. RGB values
+4. HSL values
+
+Keywords are just the words that describe a color. A full list can be found [here](http://www.w3.org/TR/css3-color/). While they are simple in nature, they are limited and thus are not a popular choice.
+
+Hexadecimal colors consist of a hash (`#`) followed by 6 (or 3) characters. These figures use the numbers `0` through `9` and letters `a` through `f`. The first two figures map the red channel, the second green and the third blue.
+
+When the numbers are the same in each channel, the numbers can be condenser into a three digit value. For instance `#ff6600` will become `#f60`.
+
+The character pairs are obtained by converting `0` through `255` into a base-16 format. It helps to know that `0` equals black and `f` equals white.
+
+```css
+
+.task {
+  background: #800000;          // also #800
+}
+.count {
+  background: #ff0;
+}
+
+```
+
+RGB color values use the `rgb()` function and stands for red, green, and blue. The function accepts an integer from `0` to `255` separated by commas.
+
+```css
+
+.task {
+  background: rgb(128, 0, 0);
+}
+.count {
+  background: rgb(255, 255, 0);
+}
+
+```
+
+RGB color values may also use an alpha (transparency) channel by using the `rgba()` function which adds an additional number from `0` through `1` to represent transparency. `0` creates full transparency.
+
+HSL & HSLa Colors use the `hsl()` function which stands for hue, saturation, and lightness. It works much the same way as `rgb()`.
+
+Hue is a unitless number from `0` to `360`. They represent the color wheen and the value identifies the degree of a color on the wheel.
+
+The second and third values represent saturation and lightness and are percentage values. The saturation goes from `0` for grayscale to `100%` for full saturation. Lightness goes from `0` for completely black to `100%` for completely white.
+
+HSL color values may also take an alpha value. in the `hsla()` function.
+
+```css
+
+.task {
+  background: hsl(0, 100%, 25%);
+}
+.count {
+  background: hsl(60, 100%, 50%);
+}
+
+```
+
+Not all browsers may support HSL values as it is fairly new.
+
+##### Lengths
+
+There are a handful of ways to represent types of values for lengths. However they come in two distinct forms
+
+1. absolute length (pixels)
+2. relative (percentages, em, rem)
+
+A pizel is equal to 1/96th of an inch. However, the exact measurement of a pixel depends on the viewing device as to whether it is high or low density.
+
+Pixels have lost popularity due to the nature of changing viewing devices as they can be quite inflexible and non-responsive.
+
+`%` values are very popular as a `width` of `50%` allows a child element to span `50%` of the width of its parent container.
+
+```css
+
+.col {
+  width: 50%;
+}
+
+```
+
+They are extremely helpful for setting the height and width of elements and building out the layout of a web page.
+
+The `em` value is also very popular and useful for font sizes. A single em unit is equivalent to an element's font size. If an element has a font size of `14` pixels and a `width` set to `5em`, the width would equal `70` pixels (`14` pixels multiplied b `5`).
+
+```css
+
+.banner {
+  font-size: 14px;
+  width: 5em;
+}
+
+```
+
+When a font size if not explicitly stated for an element, the em unit will be relative to the font size of the closest parent element with a stated font size.
+
+#### Summary
+
+We focused on the foundations of CSS, covering exactly how it works and some common values we’re sure to use.
+
+To briefly recap, within this lesson we’ve discussed the following:
+
+- How style sheets cascade from the top to the bottom of a file
+- What specificity is and how we can calculate it
+- How to combine selectors to target specific elements or groups of elements
+- How to use multiple classes on a single element to layer on different styles for more modular code
+- The different color values available to use within CSS, including keyword, hexadecimal, RGB, and HSL values
+- The different length values available to use within CSS, including pixels, percentages, and em units
