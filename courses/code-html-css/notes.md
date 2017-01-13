@@ -739,3 +739,190 @@ To briefly recap, within this lesson we’ve discussed the following:
 - How to use multiple classes on a single element to layer on different styles for more modular code
 - The different color values available to use within CSS, including keyword, hexadecimal, RGB, and HSL values
 - The different length values available to use within CSS, including pixels, percentages, and em units
+
+## Lesson 4: Opening the Box Model
+
+In the process we’ll discuss what is known as the box model and how it works with HTML and CSS. We’re also going to look at a few new CSS properties and use some of the length values we covered in Lesson 3.
+
+#### How Are Elements Displayed?
+
+Recap:
+
+- block-level all available width, regardless on content, on a new line
+- inline-level occupy only the width their content requires and line up on the same line as another.
+
+##### Display
+
+Exactly how elements are displayed are determined by the `display` property. Values could be one of `block`, `inline`, `inline-block`, and `none`.
+
+The first two have been discussed but `inline-block` will allow an element to behave like a block-level element but displayed inline with other elements (will not begin a new line).
+
+NB: There is a little space between inline-level elements. They can be removed as they be annoying but will discuss it shortly.
+
+Using the value of `none` will render the page as if that element doesn't exist.
+
+#### What Is the Box Model?
+
+The [box model](http://css-tricks.com/the-css-box-model/) sees every element on the page as a rectangular box and may have the following:
+
+- width
+- height
+- padding
+- borders
+- margins
+
+**Every element on a page is a rectangular box**
+
+#### Working with the Box Model
+
+The size of that box is determined by several manipulations.
+
+The core is defined by the width and height of an element, naturally. This may be determined by the `display` property, by the contents of the element or by specified `width` and `height` properties.
+
+`padding` and then `border` expand the dimensions of the box outward from the element's width and height (from the inside).
+
+`margin` will follow the border outwards.
+
+```css
+
+div {
+  border: 6px solid #949599;
+  height: 100px;
+  margin: 20px;
+  padding: 20px;
+  width: 400px;
+}
+
+```
+
+##### Width & Height
+
+The total _width_ of an elements can be calculated:
+
+```
+
+margin-right + border-right + padding-right + width + padding-left + border-left + margin-left
+
+```
+
+The total _height_ of an element can be calculated
+
+```
+
+margin-top + border-top + padding-top + height + padding-bottom + border-bottom + margin-bottom
+
+```
+
+Thus:
+
+- **Width:** 492px = 20px + 6px + 20px + 400px + 20px + 6px + 20px
+- **Height:** 192px = 20px + 6px + 20px + 100px + 20px + 6px + 20px
+
+It's important to remember that the model is additive.
+
+We have discussed width and height. The defaults are determined by the content but may be altered.
+
+##### Margin & Padding
+
+Margin and padding defaults depend on the browser depending on the element itself. This is generally the case with text-based elements.
+
+Margins are completely transparent and allow us to position elements in a particular place on a page. An oddity means that vertical margins (`top` and `bottom`) are not accepted by inline-level elements.
+
+Padding is very similar however it is inside the element's borders (if there is one). It is used to space directly within an element. It does however work on vertically inline-level elements. However, any `vertical` padding may bleed into the lines above and below an element.
+
+There is more than one way to declare these two properties. They come in both longhand and shorthand form.
+
+To set all four sides the same value:
+
+```css
+
+div {
+    margin: 20px;
+}
+
+```
+
+To set one value for the `top` and `bottom` first, and then for `left` and `right`:
+
+```css
+
+div {
+    margin: 10px 20px;
+}
+
+```
+
+To set unique values for all four sides (`top`, `right`, `bottom`, and `left`):
+
+```css
+
+div {
+    margin: 10px 20px 0 15px;
+}
+
+```
+
+We may also using `margin` or `padding` followed by a `-` and the direction. This is best when only specifying one value. Also, both do not accept colors.
+
+
+##### Borders
+
+These fall between padding and margin, providing an outline. A `border` requires three values: `width`, `style`, and `color`. Shorthand are stated in that order. Longhand, these can follow `border` and a `-`.
+
+`width` and `color` have been explained but style can be one of: `solid`, `double`, `dashed`, `dotted`, and `none`.
+
+Border can be placed on one side, much like padding and margin. Further, we can style _with_ direction, followed by `width`, `style`, or `color`.
+
+```css
+
+div {
+    border-bottom-width: 12px;
+}
+
+```
+
+A `border-radius` property enables us to round the corners. A single value will apply to all corners, whereas `top-left`/`bottom-right` and `top-right`/`bottom-left` will provide some specificity.
+
+##### Box Sizing
+
+Until now, the model has been additive but may also be changed to support different calculations. CSS3 introduced the `box-sizing` property which allows us to change how the box model works and how an element's size is calculated. The three primary values are:
+
+1. `content-box`
+2. `padding-box`
+3. `border-box`
+
+The first is the default additive calculation.
+
+The second includes any padding values. Therefore if an element has a `width` of `400` pixels and `padding` of `20` pixels, the actual size remains `400` pixels. As `padding` increases, the content size within an element shrinks proportionally. Borders and margins will add to the height and width.
+
+The third takes into account the border as well and only margin will affect the height and width.
+
+```css
+
+div {
+  -webkit-box-sizing: content-box;
+     -moz-box-sizing: content-box;
+          box-sizing: content-box;
+}
+
+```
+
+The above shows browser-specific properties. The first is Webkit (Chrome/Safari), the second is MOzilla Firefox and a third not here is IE (`-ms-`). They are used to provide support to older browsers but as CSS3 is more accepted, these vendor-prefixes are becoming more irrelevant.
+
+When picking a box size, the best is `border-box` generally speaking as it makes the maths much simpler. The only drawback is that not every browser supports it.
+
+#### Developer Tools
+
+It's useful to use Chrome Dev Tools.
+
+#### Summary
+
+Learning all the different parts of the box model is no small feat. These concepts, although briefly introduced, take quite a bit of time to fully master, and we’re on the right path toward doing so.
+
+In brief, within this lesson we talked about the following:
+
+- How different elements are displayed
+- What the box model is and why it’s important
+- How to change the size, including the height and width, of elements
+- How to add margin, padding, and borders to elements
+- How to change the box sizing of elements and the effects this has on the box model
