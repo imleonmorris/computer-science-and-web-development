@@ -252,3 +252,258 @@ To recap, so far we’ve covered the following:
 - Working with CSS selectors
 - Referencing CSS in your HTML
 - The value of CSS resets
+
+## Lesson 2: Building Your First Web Page
+
+#### Semantics Overview
+
+The practice of giving content on the page meaning and structure by using the proper element. Semantic code describes the _value_ of content on a page (regardless of style or appearance).
+
+Benefits include enabling computers, screen reader, search engines, etc to adequately read and understandt the content on a web page.
+
+It's also easier to work with and manage.
+
+#### Identifying divisions & Spans
+
+`<div>`s and `<span>`s act as containers solely for styling purposes. As generic containers, they do not come with any overarching meaning or semantic value.
+
+They are both extremely valuable when building a website as they allow us to apply targeted styles to a contained set of content.
+
+A `<div>` is block-level (begin on a new line) and is commonly used to identifty large groupings of content.
+
+A `<span>` is inline-level (does not begin on a new line) and is used to identify smaller groupings of text within a block-level element.
+
+Both elements often make use of `id` and `class` attributes for styling purposes. However, the choice of value requires a bit of care. We need a value which adequately refers to the content of an element, not to the element itself.
+
+#### Using Text-Based Elements
+
+The most comomon elements for displaying text include headings, paragraphs, bold text and italics.
+
+##### Headings
+
+These are block-level and come in six different rankings: `<h1>` to `<h6>`. They break up content and establish hierarchy, also helping search engines to index and determine the content on a page.
+
+```html
+
+<h1>Heading Level 1</h1>
+<h2>Heading Level 2</h2>
+<h3>Heading Level 3</h3>
+<h4>Heading Level 4</h4>
+<h5>Heading Level 5</h5>
+<h6>Heading Level 6</h6>
+
+```
+
+##### Paragraphs
+
+Often suppoting headings. They are block-level defined by the following:
+
+```html
+
+<p>Steve Jobs was a co-founder and longtime chief executive officer at Apple. On June 12, 2005, Steve gave the commencement address at Stanford University.</p>
+
+<p>In his address Steve urged graduates to follow their dreams and, despite any setbacks, to never give up&ndash;advice which he sincerely took to heart.</p>
+
+```
+
+##### Bold Text with Strong
+
+To make text bold and place strong importance on it, use the `<strong>` inline-level element.
+
+Actually, we could also use `<b>` but this is more to _stylistically offset text_. Not always the best choice.
+
+
+```html
+
+<!-- Strong importance -->
+<p><strong>Caution:</strong> Falling rocks.</p>
+
+<!-- Stylistically offset -->
+<p>This recipe calls for <b>bacon</b> and <b>baconnaise</b>.</p>
+
+```
+
+##### Italicise Text with Emphasis
+
+To italicise text we use the `<em>` inline-level element. As with bold elements, there is also `<i>`. The former semantically places _stressed emphasis_ on text (more popular), while the latter semantically conveys text in an _alternative voice or tone_.
+
+```html
+
+<!-- Stressed emphasis -->
+<p>I <em>love</em> Chicago!</p>
+
+<!-- Alternative voice or tone -->
+<p>The name <i>Shay</i> means a gift.</p>
+
+```
+
+#### Building Structure
+
+For a long time, the structure of a page was built using divisions. However, they provide no semantic value. HTML5 now provide structurally based elements: `<header>`, `<nav>`, `<article>`, `<section>`, `<aside>`, and `<footer>` elements. They are all block-level.
+
+![structure](http://learn.shayhowe.com/assets/images/courses/html-css/getting-to-know-html/building-structure.png)
+
+##### Header
+
+Used to identify the top of a page, article, section, or other segment of a page.
+
+``` html
+
+<header>...</header>
+
+```
+
+##### Navigation
+
+The `<nav>` element identifies a section of major navigational links on a page. This should be reserved for primary navigation sections only, such as global navigation, a table of content, previous/next links, or other noteworthy groups of navigational links.
+
+```html
+
+<nav>...</nav>
+
+```
+
+##### Article
+
+Used to identify a section of independent, self-container content that may be independently distributed or reused. Often used to mark up blog posts, newspaper articles, user-submitted content, etc.
+
+When deciding to use `<article>`, must determine if the content within the element could be replicated elsewhere without any confusion.
+
+```html
+
+<article>...</article>
+
+```
+
+### Section
+
+Used to identify a thematic group of content, which generally, but not always, includes a heading. The grouping of content within `<section>` may be generic, but it's useful to identify all of the content as related.
+
+```html
+
+<section>...</section>
+
+```
+
+But when do you decide between `<article>`, `<section>` or `<div>`?
+
+`<article>` and `<section>` contribute to a document's structure and help to outline a document. If the content is being grouped solely for styling purposes and doesn't provide valye to the outline of a document, use the `<div>` element.
+
+If the content adds to the document outline and it can be independently redistributed or syndicated, use `<article>`.
+
+If the content adds to the document outline and represents a thematic group of content, use `<section>`.
+
+##### Aside
+
+This holds content, such as sidebars, inserts, or brief explanation that is tangentially related to the content surrounding it.
+
+E.g. When used within an `<article>`, `<aside>` may identify content related to the author of an article.
+
+```html
+
+<aside>...</aside>
+
+
+```
+
+##### Footer
+
+Identifies the closing or end of a page, article, section, or other segment of a page. Generally the `<footer>` element is found at the bottom of its parent.
+
+Content within the `<footer>` element should be relative information and should not diverge from the document or section it is included within.
+
+```html
+
+<footer>...</footer>
+
+
+```
+
+###### A note about special characters
+
+There are numerous special characters and they begin with `&` and end with `;`. The characters unique coding falls between the two.
+
+A long list can be found [here](http://copypastecharacter.com/).
+
+#### Creating Hyperlinks
+
+One of the core components of the internet is the hyperlink. They are established by using the anchor inline-level element. The `href` attribute is required.
+
+```html
+
+<a href="http://shayhowe.com">Shay</a>
+
+```
+
+Historically, anchor elements would not be allowed to wrap block-level elements but HTML5 breaks from convention and allows this.
+
+##### Relative & Absolute Paths
+
+The two most common links are:
+
+1. links to other pages on the _same website_,
+2. links to _other websites_.
+
+The former will use a _relative path_. This takes the form of a file location (including any directories).
+
+The latter will use an _absolute path_. The `href` would take the value of the full domain.
+
+```html
+
+<!-- Relative Path -->
+<a href="about.html">About</a>
+
+<!-- Absolute Path -->
+<a href="http://www.google.com/">Google</a>
+
+```
+
+##### Linking to an Email Address
+
+This is very useful. To create an email link, the `href` attribute value needs to start with `mailto:` followed by the email address.
+
+This can be customised and additional information such as a subject or body text can be populated.
+
+Subject lines require the `subject=` parameter after the email address, and the first parameter after the email address must begin with `?`. Multiple words within a subject line require `%20`.
+
+Body text works the same but using `body=`. Because we are binding two parameter, use `&` to separate the two. Line breaks require `%0A`.
+
+``` html
+
+<a href="mailto:shay@awesome.com?subject=Reaching%20Out&body=How%20are%20you">Email Me</a>
+
+```
+
+##### Opening Links in a New Window
+
+We can determine where a link opens when clicked. Using `targert="_black"` will open a new window.
+
+##### Linking to Parts of the Same Page
+
+We can set an on page link by setting an `id` attribute on the element we wish to link to, then using that value within an anchor's `href` attribute.
+
+e.g.
+
+```html
+
+<body id="top">
+  ...
+  <a href="#top">Back to top</a>
+  ...
+</body>
+
+```
+
+#### Summary
+
+Semantics, as discussed within this lesson, are essential for providing our HTML with structure and meaning. Moving forward we’ll periodically introduce new elements, all of which will come with their own semantic meaning. It is the meaning of all of these elements that will provide our content with the most value.
+
+Once again, in this lesson we covered the following:
+
+- What semantics are and why they are important
+- `<div>`s and `<spans>`s, and the difference between block- and inline-level elements
+- Which text-based elements best represent the content of a page
+- The HTML5 structural elements and how to define the structure and organization of our content and page
+- How to use hyperlinks to navigate between web pages or websites
+
+
