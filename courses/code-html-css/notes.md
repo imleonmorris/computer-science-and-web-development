@@ -926,3 +926,137 @@ In brief, within this lesson we talked about the following:
 - How to change the size, including the height and width, of elements
 - How to add margin, padding, and borders to elements
 - How to change the box sizing of elements and the effects this has on the box model
+
+## Lesson 5: Positioning Content
+
+There are several different types of positioning in CSS, each with its own application.
+
+### Positioning with Floats
+
+The `float` property allows us to take an element, remove it from the normal flow of a page, and position it to the left or right of its parent element. All other elements on the page will then flow around the floated element.
+
+The two most common values for `float` are `left` and `right`.
+
+```css
+
+img {
+    float: left;
+}
+
+```
+
+By default, block-level elements will stack one on top of each other. If we want them side by side, we can use `left` and `right` floats.
+
+Notes: When we float an element, it will float right to the edge of its parent element. If there isn't a parent, then it will float to the edge of the page.
+
+Also, when floating, we are taking an element out of the normal flow of the HTML document. This causes the width of that element to default to the width of the content within it. This is not always desired, and can be corrected by using a `width` value (percentages are useful here). Using some margin is also useful as floated elements will also touch with other elements.
+
+Floated elements could also affect the `display` value. A floated element relies on having a `display` value of `block`, and could override the element's default.
+
+If we have two elements to float next to each other, we can just used `float` values of `left` and `right`. With more than two elements, we will need to exclusively use `left`. We should alos adjust the width to account for additional elements/columns.
+
+#### Clearing & Containing Floats
+
+Originally, `float` was designed to allow content to wrap around images and not intended for layout and positioning purposes.
+
+Some issues include:
+
+- Occasionally, the proper styles will not render on an element that is sitting next to, or is, a parent element of a floated element.
+- `margin` and `padding` may not be interpreted correctly, causing them to blend into the floated element.
+- Sometimes, unwanted content begins to wrap around a floated element.
+
+This third one is often a common issue and can be resolved by clearing out floats. To do this, we use the `clear` property and one of the `left`, `right` or `both` values. The third is often the most ideal.
+
+```css
+
+footer {
+    clear: both;
+}
+
+```
+
+We can also contain floats which is another option. The outcome is basically the same but containing floats helps ensure that all of our styles will be rendered properly.
+
+To do this, the floated elements must reside within a parent element. This will act as a container, leaving the flow of the document completely normal outside of it.
+
+Some CSS could be:
+
+```css
+
+.group:before,
+.group:after {
+  content: "";
+  display: table;
+}
+.group:after {
+  clear: both;
+}
+.group {
+  clear: both;
+  *zoom: 1;
+}
+
+```
+
+What this is doing is clearing any floated elements within the element (with class `group`) and returning the flow of the document to normal.
+
+This technique is also known as a 'clearfix' and is very popular.
+
+### Position with Inline-Block
+
+We could also use the `display` property with `inline-block`. This method is helpful for laying out paegs or for placing elements next to one another within a line. It allows us to take full advantage of the box model.
+
+Let's take the following code:
+
+```css
+
+section {
+  display: inline-block;
+  margin: 0 1.5%;
+  width: 30%;
+}
+
+```
+
+This code will not quite work as the three elements that we would apply this two wouldn't _quite_ fit on one line. Recall that this is because `inline-block` elements have a teensy bit of space _around_ them that needs to be taken into account.
+
+Thus we need to remove it but there are several ways of doing this:
+
+1. put each new element's opening tag on the same line as the previous element's closing tag, thus removing white space between the elements.
+2. open a HTML comment directly after an inline-block element's closing tag, then close the comment immediately before the next inline-block element's opening tag.
+
+Neither option is perfect but they are helpful.
+
+### Creating Reusable Layouts
+
+It is always best to write modular styles that may be used elsewhere. Reusable layouts feature high in this priority.
+
+Whether using floats or inline-block elements to lay out strucure is up for debate. A good approach is to use inline-block elements to create the grid (layout) of a page, and then to use floats when wrapping content around a given element.
+
+Currently, there are new CSS specifications (such as `flex-` and `grid-` based properties) that may help address the issue of best laying out pages.
+
+### Uniquely Positioning Elements
+
+Sometimes we need to position elements exactly and the previous tricks won't work
+
+The `position` property identifies _how_ an element is positioned on a page and whether or not it will appear within the normal flow of a document. The is used in conjuntion with the box offset properties from above. By default, every element has a `position` value of `static` but it can be overwritten with a `relative` or `absolute` value.
+
+The `relative` value allows elements to appear within the normal flow of a page, leaving space for an element as intended while not allowing other elements to flow around it.
+
+It also allows an element's display position to be modified with the box offset properties.
+
+The `absolute` value for the `position` property is different in that it will cause an element to not appear in the normal flow of a document, and the original space and position of the absolutely positioned element will not be preserved.
+
+They also move in relation to their closest relatively positioned parent element.
+
+## Summary
+
+Learning how to position content within HTML and CSS is a huge step toward mastering the two languages. Add to this the box model, and we’re well on our way to becoming front-end developers.
+
+To review, within this lesson we covered the following:
+
+- What floats are and how to use them to position content
+- How to clear and contain floated elements
+- How to position content with inline-block elements
+- How to remove the white space between inline-block elements
+- How to uniquely position content with relatively and absolutely positioned elements
