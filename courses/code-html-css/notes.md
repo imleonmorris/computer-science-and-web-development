@@ -1049,7 +1049,7 @@ The `absolute` value for the `position` property is different in that it will ca
 
 They also move in relation to their closest relatively positioned parent element.
 
-## Summary
+### Summary
 
 Learning how to position content within HTML and CSS is a huge step toward mastering the two languages. Add to this the box model, and we’re well on our way to becoming front-end developers.
 
@@ -1060,3 +1060,164 @@ To review, within this lesson we covered the following:
 - How to position content with inline-block elements
 - How to remove the white space between inline-block elements
 - How to uniquely position content with relatively and absolutely positioned elements
+
+## Lesson 6: Working with Typography
+
+A _typeface_ is what we see. It is the artistic impression of how text looks, feels, and reads.
+
+A _font_ is a file that contains a typeface. Using a font on a computer allows the computer to access the typeface.
+
+We can compare the two with songs and MP3.
+
+### Adding Color to Text
+
+The typeface and text color generally have the largest impact on the legibility of a page.
+
+The only property we need is `color`.
+
+### Changing Font Properties
+
+There are lots of different properties to edit the text of a page and generally fit into either font-based properties (`font-*`) and text-based properties (`text-*`).
+
+Font-based:
+
+1. `font-family` - left to right. Two or more names will need wrappin in `""`.
+2. `font-size`
+3. `font-style` - accepts `normal`, `italic`, `oblique`, and `inherit`.
+4. `font-variant` - accepts `normal`, `small-caps`, `inherit`.
+5. `font-weight` - accepts key words and numeric values.
+6. `line-height`
+
+### Appying Text Properties
+
+1. `text-align` - left, right, center, justify, and inherit.
+2. `text-decoration` - none, underline, overline, line-through, and inherit
+3. `text-indent`
+4. `text-shadow`
+5. `text-transform` - none, capitalize, uppercase, lowercase, and inherit.
+6. `letter-spacing` - can use positive or negative values
+7. `word-spacing`
+
+### Web-Safe Fonts
+
+- Arial
+- Garamond
+- Lucida Sans, Lucida Grande, Lucida
+- Tahoma
+- Trebuchet
+- Courier New, Couria
+- Georgia
+- Palatino Linotype
+- Times New Roman, Times
+- Verdana
+
+### Embedding Web Fonts
+
+Upload fonts to a server using `@font-face`.
+
+1. use `@font-face` to identify font's name
+  - use `font-family for name
+  - use `src` for location path
+2. Next use this font by including its name within any `font-familly`
+
+```css
+
+@font-face {
+  font-family: "Lobster";
+  src: local("Lobster"), url("lobster.woff") format("woff");
+}
+body {
+  font-family: "Lobster", "Comic Sans", cursive;
+}
+
+```
+
+### Including Citations & Quotes
+
+There are other HTML options for writing online:
+
+- `<cite>`: Referencing creative work, author, or resource
+- `<q>`: Short, inline quotations
+- `<blockquote>`: Longer external quotations
+
+#### Citing creative work
+
+The element `<cite>` must include:
+
+- title of work
+- author's name
+- URL reference
+- helps to include hyperlink to the original src
+
+For instance:
+
+```html
+
+<p>The book <cite><a href="http://www.amazon.com/Steve-Jobs-Walter-Isaacson/dp/1451648537">Steve Jobs</a></cite> is truly inspirational.</p>
+
+```
+
+#### Dialogue & Prose Quotation
+
+Inline quotes, dialogue or prose are semantically indicated using `<q>`.
+
+Propert quotation marks are inserted by the browser by default (based on the `lang` global attribute).
+
+e.g.
+
+```html
+
+<p>Steve Jobs once said, <q>One home run is much better than two doubles.</q></p>
+
+```
+
+#### Dialogue & Prose Citation
+
+It's possible to use `<q>` with the `cite` attribute. This attr acts as a citation reference to the quote by way of a URL. Useful for screen readers, etc.
+
+```html
+
+<p><a href="http://www.businessweek.com/magazine/content/06_06/b3970001.htm">Steve Jobs</a> once said, <q cite="http://www.businessweek.com/magazine/content/06_06/b3970001.htm">One home run is much better than two doubles.</q></p>
+
+```
+
+#### External Quotation
+
+Use `<blockquote>` for large external sources which may span several lines.
+
+NB: A block level element.
+
+```html
+
+<blockquote>
+  <p>&#8220;In most people&#8217;s vocabularies, design is a veneer. It&#8217;s interior decorating. It&#8217;s the fabric of the curtains, of the sofa. But to me, nothing could be further from the meaning of design. Design is the fundamental soul of a human-made creation that ends up expressing itself in successive outer layers of the product.&#8221;</p>
+</blockquote>
+
+```
+
+#### External Citation
+
+Longer quotes used within the `<blockquote>` element will often include a citation. This citation may comprise both the cite attribute and the `<cite>` element.
+
+The cite attribute can be included on the `<blockquote>` element—in the same way that it was used on the `<q>` element earlier—to provide a citation reference to the quote in the form of a URL. The `<cite>` element then can fall after the actual quote itself to specify the original source of the quote, if relevant.
+
+```html
+
+<blockquote cite="http://money.cnn.com/magazines/fortune/fortune_archive/2000/01/24/272277/index.htm">
+  <p>&#8220;In most people&#8217;s vocabularies, design is a veneer. It&#8217;s interior decorating. It&#8217;s the fabric of the curtains, of the sofa. But to me, nothing could be further from the meaning of design. Design is the fundamental soul of a human-made creation that ends up expressing itself in successive outer layers of the product.&#8221;</p>
+  <p><cite>&#8212; Steve Jobs in <a href="http://money.cnn.com/ magazines/fortune/fortune_archive/2000/01/24/272277/index.htm"> Fortune Magazine</a></cite></p>
+</blockquote>
+
+```
+
+### Summary
+
+To quickly recap, within this lesson we discussed the following:
+
+- Adding color to our text to enhance it
+- Applying font-based properties, including font-family, font-size, font-style, font-weight, and more
+- Applying text-based properties, including text-align, text-decoration, text-indent, text-shadow, and more
+- The history behind web-safe fonts and how to embed our own web fonts
+- How to properly mark up citations and quotations
+
+![img](http://www.impressivewebs.com/css-font-shorthand-cheat-sheet.pdf)
